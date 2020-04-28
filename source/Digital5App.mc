@@ -5,17 +5,6 @@ using Toybox.System;
 using Toybox.Time;
 using Toybox.Time.Gregorian;
 
-var debug = true;
-
-    function Log(method, message){
-    	if ($.debug){
-    	
-          var myTime = System.getClockTime(); 
-          var myTimeString = myTime.hour.format("%02d") + ":" + myTime.min.format("%02d") + ":" + myTime.sec.format("%02d");
-          if ($.debug) {System.println(myTimeString + " | " + method + " | " + message);}
-        }
-    }
-
 class Digital5ReloadedApp extends App.AppBase {
     hidden var view;
     hidden var sunRiseSet;
@@ -52,8 +41,14 @@ class Digital5ReloadedApp extends App.AppBase {
     }
 
     function onBackgroundData(data) {
-        Log("Digital5ServiceDelegate.onBackgroundData","data: " + data);
-    
+    	var openWeather = false;
+    	var apiKey = App.getApp().getProperty("OpenWeatherApiKey");
+    	if (apiKey.length() > 0) {
+    		openWeather = true;
+    	} else {
+    	  apiKey = App.getApp().getProperty("DarkSkyApiKey");
+    	}
+    	    
         if (data instanceof Dictionary) {
             var msg = data.get("msg");
             App.getApp().setProperty("dsResult", msg);
@@ -64,27 +59,55 @@ class Digital5ReloadedApp extends App.AppBase {
                 App.getApp().setProperty("maxTemp", data.get("maxTemp"));
             }
             // rain, snow, sleet, wind, fog, cloudy
+            // https://openweathermap.org/weather-conditions#How-to-get-icon-URL
+
             var icon = data.get("icon");
-            if (icon == null) {
-                App.getApp().setProperty("icon", 7);
-            } else if (icon.equals("clear-day") || icon.equals("clear-night")) {
-                App.getApp().setProperty("icon", 0);
-            } else if (icon.equals("rain") || icon.equals("hail")) {
-                App.getApp().setProperty("icon", 1);
-            } else if (icon.equals("cloudy")) {
-                App.getApp().setProperty("icon", 2);
-            } else if (icon.equals("partly-cloudy-day") || icon.equals("partly-cloudy-night")) {
-                App.getApp().setProperty("icon", 3);
-            } else if (icon.equals("thunderstorm")) {
-                App.getApp().setProperty("icon", 4);
-            } else if (icon.equals("sleet")) {
-                App.getApp().setProperty("icon", 5);
-            } else if (icon.equals("snow")) {
-                App.getApp().setProperty("icon", 6);
+            if (openWeather){
+              if (icon == null) {
+                  App.getApp().setProperty("icon", 7);
+              } else if (icon.equals("01d") || icon.equals("01n")) {
+                  // clear
+                  App.getApp().setProperty("icon", 0);
+              } else if (icon.equals("09d") || icon.equals("09n") || icon.equals("10d") || icon.equals("10n")) {
+              	// rain
+                  App.getApp().setProperty("icon", 1);
+              } else if (icon.equals("03d") || icon.equals("03n") || icon.equals("04d") || icon.equals("04n")) {
+                  // partly cloudy
+                  App.getApp().setProperty("icon", 2);
+              } else if (icon.equals("02d") || icon.equals("02n")) {
+                  // cloudy
+                  App.getApp().setProperty("icon", 3);
+              } else if (icon.equals("11d") || icon.equals("11n")) {
+                  // thunderstorm
+                  App.getApp().setProperty("icon", 4);
+              } else if (icon.equals("13d") || icon.equals("13n")) {
+                  // snow
+                  App.getApp().setProperty("icon", 6);
+              } else {  
+                  // not set
+                  App.getApp().setProperty("icon", 7);
+              }
             } else {
-                App.getApp().setProperty("icon", 7);
+              if (icon == null) {
+                  App.getApp().setProperty("icon", 7);
+              } else if (icon.equals("clear-day") || icon.equals("clear-night")) {
+                  App.getApp().setProperty("icon", 0);
+              } else if (icon.equals("rain") || icon.equals("hail")) {
+                  App.getApp().setProperty("icon", 1);
+              } else if (icon.equals("cloudy")) {
+                  App.getApp().setProperty("icon", 2);
+              } else if (icon.equals("partly-cloudy-day") || icon.equals("partly-cloudy-night")) {
+                  App.getApp().setProperty("icon", 3);
+              } else if (icon.equals("thunderstorm")) {
+                  App.getApp().setProperty("icon", 4);
+              } else if (icon.equals("sleet")) {
+                  App.getApp().setProperty("icon", 5);
+              } else if (icon.equals("snow")) {
+                  App.getApp().setProperty("icon", 6);
+              } else {
+                  App.getApp().setProperty("icon", 7);
+              }
             }
-            
             WatchUi.requestUpdate();
         }
     }

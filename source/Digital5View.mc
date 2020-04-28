@@ -154,9 +154,6 @@ class Digital5View extends Ui.WatchFace {
         fieldHeight = fieldHeightPercentage * height;
         
         distanceUnit  = Sys.getDeviceSettings().distanceUnits;
-        
-        Log("Digital5View.onLayout","width: " + width + ", height: " + height);
-        
     }
 
     function onUpdate(dc) {
@@ -182,7 +179,11 @@ class Digital5View extends Ui.WatchFace {
         darkFieldBackground       = App.getApp().getProperty("DarkFieldBackground");
         fieldBackgroundColor      = darkFieldBackground ? Gfx.COLOR_BLACK : Gfx.COLOR_WHITE;
         fieldForegroundColor      = darkFieldBackground ? Gfx.COLOR_WHITE : Gfx.COLOR_BLACK;
-        apiKey                    = App.getApp().getProperty("DarkSkyApiKey");
+    	apiKey = App.getApp().getProperty("OpenWeatherApiKey");
+    	if (apiKey.length() == 0) {
+    		apiKey = App.getApp().getProperty("DarkSkyApiKey");
+    	}
+        
         showBpmZones              = App.getApp().getProperty("BpmZones");
 
         clockTime                 = Sys.getClockTime();
@@ -343,7 +344,6 @@ class Digital5View extends Ui.WatchFace {
         var coloredBattery = App.getApp().getProperty("ColoredBattery");
         showChargePercentage = showChargePercentage || showPercentageUnder20 && charge < 20;
         
-        Log("Digital5View.onUpdate","(draw battery) charge: " + charge + ", showPercentageUnder20: " + showPercentageUnder20 + ", showChargePercentage: " + showChargePercentage);
 
         if (showChargePercentage) {
             batteryIconOffsetX = 7;
@@ -389,8 +389,6 @@ class Digital5View extends Ui.WatchFace {
             var startX = centerX - 55 - batteryIconOffsetX;
             var startY = 18;
  
-            Log("Digital5View.onUpdate","(draw notification) startX: " + startX + ", startY: " + startY + ", notificationCount: " + notificationCount);
- 
             dc.setColor(darkUpperBackground ? Gfx.COLOR_WHITE : Gfx.COLOR_BLACK, upperBackgroundColor);
             dc.fillRectangle(startX, startY, 18, 11);
             dc.setColor(darkUpperBackground ? Gfx.COLOR_BLACK : Gfx.COLOR_WHITE, upperBackgroundColor);
@@ -405,7 +403,6 @@ class Digital5View extends Ui.WatchFace {
         if (connected) {
             var startX = centerX - 30 - batteryIconOffsetX;
             var startY = 12;
-            Log("Digital5View.onUpdate","(draw bluetooth) startX: " + startX + ", startY: " + startY + ", connected: " + connected);
             dc.setColor(upperForegroundColor, upperBackgroundColor);
             dc.drawLine(startX, startY, startX + 7, startY + 7);
             dc.drawLine(startX + 7, 19, startX + 3, startY + 11);
@@ -420,7 +417,7 @@ class Digital5View extends Ui.WatchFace {
             var noDisturbX = centerX + 28 + batteryIconOffsetX;
             dc.drawCircle(noDisturbX, 17, 7);
             dc.fillRectangle(noDisturbX - 3, 16, 7, 3);
-        }
+       }
 
         // Draw Alarm
         var alarmCount = Sys.getDeviceSettings().alarmCount;
@@ -504,9 +501,7 @@ class Digital5View extends Ui.WatchFace {
             var moveBarRightStart = moveBarLeftPart + moveBarLeft + 2;
             var moveBarRightPart = moveBarLength * 0.138888889;
             var moveBarX = dataFieldsTop - 6;
-            
-            Log("Digital5View.onUpdate","(draw move bar) moveBarLength: " + moveBarLength + "moveBarLeft: " + moveBarLeft + "moveBarLeftPart: " + moveBarLeftPart + "moveBarRightStart: " + moveBarRightStart + "moveBarRightPart: " + moveBarRightPart + "moveBarX: " + moveBarX);
-            
+                        
             dc.setColor(darkUpperBackground ? Gfx.COLOR_DK_GRAY : Gfx.COLOR_LT_GRAY, upperBackgroundColor);
 
             dc.fillRectangle(moveBarLeft, moveBarX, moveBarLeftPart, 4);
@@ -856,34 +851,14 @@ class Digital5View extends Ui.WatchFace {
                 break;
             case 13: // 
                 if (apiKey.length() > 0) {
-            
-                    Log("Digital5View.drawWithUnit","(weather) - apiKey: " + apiKey);
-            
+                        
                     if (field == BOTTOM_FIELD) { textX += 10; }
                     var icon = 7;
                     var dsResult = App.getApp().getProperty("dsResult");
-                    Log("Digital5View.drawWithUnit","(weather) - dsResult: " + dsResult + ", length: " + dsResult.length());
                     
-                    //if (dsResult.length() == 0){
-                    //    Log("Digital5View.drawWithUnit","(weather) - no results yet, displaying empty");
-                    //	fieldText = "----";
-                    //	unitText = "";
-                    //	break;
-                    //}
-                    
-                    //if (!dsResult.equals("CURRENTLY") && !dsResult.equals("DAILY")){
-                    //   Log("Digital5View.drawWithUnit","(weather) - displaying error");
-                    //   fieldText = dsResult;
-                    //   unitText = "";
-                    //   break;
-                    //}
-
-
-                    if (currentWeather) {
+                   if (currentWeather) {
                         var temp = App.getApp().getProperty("temp");
-                        Log("Digital5View.drawWithUnit","(weather) - temp: " + temp);
                        if (!(temp instanceof Toybox.Lang.Float)) {
-                            Log("Digital5View.drawWithUnit","(weather) - no current data available, displaying empty");
                             fieldText = "----";
                             unitText = "";
                             break;
@@ -898,9 +873,7 @@ class Digital5View extends Ui.WatchFace {
                     else {
                         var minTemp = App.getApp().getProperty("minTemp");
                         var maxTemp = App.getApp().getProperty("maxTemp");
-                        Log("Digital5View.drawWithUnit","(weather) - minTemp: " + minTemp + ", maxTemp: " + maxTemp);
                         if (!(minTemp instanceof Toybox.Lang.Float)) {
-                            Log("Digital5View.drawWithUnit","(weather) - no daily data available, displaying empty");
                             fieldText = "----";
                             unitText = "";
                             break;
@@ -915,9 +888,6 @@ class Digital5View extends Ui.WatchFace {
                             fieldText = minTemp.format("%.0f") + "/" + maxTemp.format("%.0f");
                         }
                     }
-                    
-                    Log("Digital5View.drawWithUnit","drawWithUnit (weather) - icon: " + icon );
-                    
                     drawWeatherSymbol(field, icon, dc, xyPositions);
                 } 
                 else {
@@ -940,7 +910,6 @@ class Digital5View extends Ui.WatchFace {
         var unitLcdY = xyPositions[5];
         var unitX    = xyPositions[6];
         var unitY    = xyPositions[7];
-        Log("Digital5View.drawUnitText", "unitText: " + unitText + ", field: " + field);
         if (field == BOTTOM_FIELD){
             switch(unitText.toLower()){
             case "km":

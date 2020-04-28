@@ -175,10 +175,12 @@
     <string id="CurrentTimezoneOffset">Timezone (current location)</string>
 	
 	<string id="CurrentDST">Daylight Saving Time (current location)</string>
-	
+		
+	<string id="DarkSkyApiKey">DarkSky API Key (deprecated)</string>
+
+	<string id="OpenWeatherApiKey">OpenWeather API Key</string>
+
 	<string id="CurrentWeather">Current (checked)/ Daily (unchecked) Weather</string>
-	
-	<string id="DarkSkyApiKey">DarkSky API Key (Weather)</string>
 	
 	<string id="TempUnit">Temperature Unit</string>
 	<string id="Celsius">Celsius</string>

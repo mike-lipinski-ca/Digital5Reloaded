@@ -11,19 +11,74 @@ class Digital5ServiceDelegate extends System.ServiceDelegate {
     }
     
     function onTemporalEvent() {
-        var apiKey = App.getApp().getProperty("DarkSkyApiKey");
+    	var openWeather = false;
+    	var apiKey = App.getApp().getProperty("OpenWeatherApiKey");
+    	if (apiKey.length() > 0) {
+    		openWeather = true;
+    	} else {
+    	  apiKey = App.getApp().getProperty("DarkSkyApiKey");
+    	}
+        
         var lat    = App.getApp().getProperty("UserLat").toFloat();
         var lng    = App.getApp().getProperty("UserLng").toFloat();
         
         if (System.getDeviceSettings().phoneConnected &&
             apiKey.length() > 0 &&
             (null != lat && null != lng)) {
-            makeRequest(lat, lng);
+            if (openWeather){
+                makeOpenWeatherRequest(lat, lng, apiKey);
+            } else {
+                makeDarkSkyRequest(lat, lng, apiKey);
+            }
         }
     }
 
-    function makeRequest(lat, lng) {
-        var apiKey         = App.getApp().getProperty("DarkSkyApiKey");
+    
+    function makeOpenWeatherRequest(lat, lng, apiKey) {
+        var currentWeather = App.getApp().getProperty("CurrentWeather");
+        var url            = "https://api.openweathermap.org/data/2.5/weather?units=metric&lat=" + lat.toString() + "&lon=" + lng.toString() + "&appid=" + apiKey;
+        var options = {
+            :methods => Comm.HTTP_REQUEST_METHOD_GET,
+            :headers => { "Content-Type" => Comm.REQUEST_CONTENT_TYPE_JSON },
+            :responseType => Comm.HTTP_RESPONSE_CONTENT_TYPE_JSON
+        };
+                
+        Comm.makeWebRequest(url, null, options, method(:onReceiveOpenWeather));
+    }
+    
+    function onReceiveOpenWeather(responseCode, data) {
+        if (responseCode == 200) {
+            if (data instanceof Lang.String && data.equals("Forbidden")) {
+                var dict = { "msg" => "KEY" };
+                Background.exit(dict);
+            } else {
+                var currentWeather = App.getApp().getProperty("CurrentWeather");
+                var main = data.get("main");
+                var weather = data.get("weather")[0];
+                if (currentWeather) {
+                    var dict = {
+                        "icon" => weather.get("icon"),
+                        "temp" => main.get("temp"),
+                        "msg"  => "CURRENTLY"
+                    };
+                    Background.exit(dict);
+                } else {
+                    var dict = {
+                        "icon"    => weather.get("icon"),
+                        "minTemp" => main.get("temp_min"),
+                        "maxTemp" => main.get("temp_max"),
+                        "msg"     => "DAILY"
+                    };
+                    Background.exit(dict);
+                }
+            }
+        } else {
+            var dict = { "msg" => responseCode + " FAIL" };
+            Background.exit(dict);
+        }
+    }
+    
+    function makeDarkSkyRequest(lat, lng, apiKey) {
         var currentWeather = App.getApp().getProperty("CurrentWeather");
         var url            = "https://api.darksky.net/forecast/" + apiKey + "/" + lat.toString() + "," + lng.toString();
         var params;
@@ -41,11 +96,10 @@ class Digital5ServiceDelegate extends System.ServiceDelegate {
         
         if ($.debug) {System.println("Digital5ServiceDelegate.makeRequest - url: " + url + ", params: " + params);}
         
-        Comm.makeWebRequest(url, params, options, method(:onReceive));
+        Comm.makeWebRequest(url, params, options, method(:onReceiveDarkSky));
     }
-
-    function onReceive(responseCode, data) {
-        if ($.debug) {System.println("Digital5ServiceDelegate.onReceive - responseCode: " + responseCode + ", data: " + data);}
+    
+    function onReceiveDarkSky(responseCode, data) {
         if (responseCode == 200) {
             if (data instanceof Lang.String && data.equals("Forbidden")) {
                 var dict = { "msg" => "KEY" };

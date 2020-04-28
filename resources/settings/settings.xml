@@ -352,6 +352,10 @@
     <setting propertyKey="@Properties.DarkSkyApiKey" title="@Strings.DarkSkyApiKey">
     		<settingConfig type="alphanumeric" maxLength="32"/>
     </setting>
+
+    <setting propertyKey="@Properties.OpenWeatherApiKey" title="@Strings.OpenWeatherApiKey">
+    		<settingConfig type="alphanumeric" maxLength="32"/>
+    </setting>
     
     <setting propertyKey="@Properties.TempUnit" title="@Strings.TempUnit">
         <settingConfig type="list">

@@ -178,8 +178,8 @@
     
     <string id="CurrentWeather">Aktuelles (ausgewählt)/ Tägliches (nicht ausgewählt) Wetter</string>
     
-    <string id="DarkSkyApiKey">DarkSky API Key (Wetter)</string>
-    
+    <string id="DarkSkyApiKey">DarkSky API Key (Veraltet)</string>
+	<string id="OpenWeatherApiKey">OpenWeather API Key</string>    
     <string id="TempUnit">Temperatureinheit</string>
 	<string id="Celsius">Celsius</string>
 	<string id="Fahrenheit">Fahrenheit</string>

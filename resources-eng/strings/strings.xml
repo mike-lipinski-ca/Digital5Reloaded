@@ -179,7 +179,7 @@
     <string id="CurrentWeather">Current (selected)/ Daily (unselected) Weather</string>
     
     <string id="DarkSkyApiKey">DarkSky API Key (Weather)</string>
-    
+	<string id="OpenWeatherApiKey">OpenWeather API Key</string>    
     <string id="TempUnit">Temperature Unit</string>
 	<string id="Celsius">Celsius</string>
 	<string id="Fahrenheit">Fahrenheit</string>
