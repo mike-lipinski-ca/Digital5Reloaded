@@ -1,11 +1,11 @@
 <properties>
 
     <property id="Gender" type="number">1</property>
-    <property id="Weight" type="number">80</property>
+    <property id="Weight" type="number">85</property>
     <property id="Height" type="number">189</property>
-    <property id="Age"    type="number">47</property>
+    <property id="Age"    type="number">53</property>
     
-    <property id="LcdBackground" type="boolean">false</property>
+    <property id="LcdBackground" type="boolean">true</property>
     
     <property id="LcdFont" type="boolean">true</property>
     
@@ -52,19 +52,19 @@
     
     <property id="ActiveKcalGoal" type="number">0</property>
     
-    <property id="UpperLeftField" type="number">0</property>
-    <property id="UpperRightField" type="number">1</property>
+    <property id="UpperLeftField" type="number">13</property>
+    <property id="UpperRightField" type="number">5</property>
     <property id="LowerLeftField" type="number">3</property>
     <property id="LowerRightField" type="number">4</property>
-    <property id="BottomField" type="number">9</property>
+    <property id="BottomField" type="number">15</property>
     
     <property id="DarkUpperBackground" type="boolean">true</property>
     
     <property id="DarkFieldBackground" type="boolean">false</property>
     
-    <property id="UserLat" type="float">0.0</property>
+    <property id="UserLat" type="float">50.414242</property>
     
-    <property id="UserLng" type="float">0.0</property>
+    <property id="UserLng" type="float">-104.54142</property>
     
     <property id="SunriseSunset" type="boolean">false</property>
     
@@ -76,7 +76,7 @@
 
     <property id="DarkSkyApiKey" type="string"></property>
     
-    <property id="OpenWeatherApiKey" type="string"></property>
+    <property id="OpenWeatherApiKey" type="string">6480ff562a69be570ab2e8e8c0d0342a</property>
 
     <property id="TempUnit" type="number">0</property>
 

@@ -4,7 +4,7 @@ using Toybox.Application as App;
 using Toybox.Communications as Comm;
 
 (:background)
-class Digital5ServiceDelegate extends System.ServiceDelegate {
+class ClimateEyeServiceDelegate extends System.ServiceDelegate {
     
     function initialize() {
         ServiceDelegate.initialize();        
@@ -37,6 +37,7 @@ class Digital5ServiceDelegate extends System.ServiceDelegate {
     function makeOpenWeatherRequest(lat, lng, apiKey) {
         var currentWeather = App.getApp().getProperty("CurrentWeather");
         var url            = "https://api.openweathermap.org/data/2.5/weather?units=metric&lat=" + lat.toString() + "&lon=" + lng.toString() + "&appid=" + apiKey;
+        System.println(url);
         var options = {
             :methods => Comm.HTTP_REQUEST_METHOD_GET,
             :headers => { "Content-Type" => Comm.REQUEST_CONTENT_TYPE_JSON },
@@ -47,6 +48,7 @@ class Digital5ServiceDelegate extends System.ServiceDelegate {
     }
     
     function onReceiveOpenWeather(responseCode, data) {
+    System.println(data);
         if (responseCode == 200) {
             if (data instanceof Lang.String && data.equals("Forbidden")) {
                 var dict = { "msg" => "KEY" };
@@ -55,10 +57,18 @@ class Digital5ServiceDelegate extends System.ServiceDelegate {
                 var currentWeather = App.getApp().getProperty("CurrentWeather");
                 var main = data.get("main");
                 var weather = data.get("weather")[0];
+                var wind = data.get("wind");
+                System.println("temp: " + main.get("temp"));
+                System.println("speed: " + wind.get("speed"));
+                System.println("gust: " + wind.get("gust"));
+                System.println("direction: " + wind.get("deg"));
                 if (currentWeather) {
                     var dict = {
                         "icon" => weather.get("icon"),
                         "temp" => main.get("temp"),
+                        "wind" => wind.get("speed"),
+                        "gust" => wind.get("gust"),
+                        "direction" => wind.get("deg"),
                         "msg"  => "CURRENTLY"
                     };
                     Background.exit(dict);
@@ -67,6 +77,9 @@ class Digital5ServiceDelegate extends System.ServiceDelegate {
                         "icon"    => weather.get("icon"),
                         "minTemp" => main.get("temp_min"),
                         "maxTemp" => main.get("temp_max"),
+                        "wind" => wind.get("speed"),
+                        "gust" => wind.get("gust"),
+                        "direction" => wind.get("deg"),
                         "msg"     => "DAILY"
                     };
                     Background.exit(dict);
@@ -94,7 +107,7 @@ class Digital5ServiceDelegate extends System.ServiceDelegate {
             :responseType => Comm.HTTP_RESPONSE_CONTENT_TYPE_JSON
         };
         
-        if ($.debug) {System.println("Digital5ServiceDelegate.makeRequest - url: " + url + ", params: " + params);}
+        if ($.debug) {System.println("ClimateEyeServiceDelegate.makeRequest - url: " + url + ", params: " + params);}
         
         Comm.makeWebRequest(url, params, options, method(:onReceiveDarkSky));
     }

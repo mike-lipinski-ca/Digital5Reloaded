@@ -1,6 +1,6 @@
 <strings>
 
-	<string id="AppName">Digital5Reloaded</string>
+	<string id="AppName">ClimateEye</string>
 
     <string id="Gender">Gender</string>
     <string id="Female">Female</string>
@@ -161,8 +161,9 @@
     <string id="DeltaSteps">Delta Steps</string>
     <string id="Weather">Weather</string>
     <string id="DeltaActiveKcalGoal">Delta act. kcal goal</string>
-    
-    <string id="DarkUpperBackground">Dark upper area background</string>
+	<string id="Wind">Wind</string>
+
+	<string id="DarkUpperBackground">Dark upper area background</string>
     
     <string id="DarkFieldBackground">Dark field background</string>
     

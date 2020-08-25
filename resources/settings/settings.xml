@@ -282,7 +282,8 @@
     		<listEntry value="11">@Strings.ActKcalAvg</listEntry>
     		<listEntry value="13">@Strings.Weather</listEntry>
     		<listEntry value="14">@Strings.DeltaActiveKcalGoal</listEntry>
-        </settingConfig>
+			<listEntry value="15">@Strings.Wind</listEntry>
+		</settingConfig>
     </setting>
          
     <setting propertyKey="@Properties.UserLat" title="@Strings.UserLat">

@@ -1,6 +1,6 @@
 using Toybox.WatchUi as Ui;
 
-class Digital5Delegate extends Ui.WatchFaceDelegate {
+class ClimateEyeDelegate extends Ui.WatchFaceDelegate {
     
     function initialize() {
         Ui.WatchFaceDelegate.initialize();

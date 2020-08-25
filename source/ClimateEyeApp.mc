@@ -5,7 +5,7 @@ using Toybox.System;
 using Toybox.Time;
 using Toybox.Time.Gregorian;
 
-class Digital5ReloadedApp extends App.AppBase {
+class ClimateEyeApp extends App.AppBase {
     hidden var view;
     hidden var sunRiseSet;
 
@@ -25,19 +25,19 @@ class Digital5ReloadedApp extends App.AppBase {
         
         sunRiseSet = new SunRiseSunSet();
 
-        view = new Digital5View();
+        view = new ClimateEyeView();
         
         Background.registerForTemporalEvent(new Time.Duration(900)); // 15 min
         
         if( Toybox.WatchUi has :WatchFaceDelegate ) {
-            return [view, new Digital5Delegate()];
+            return [view, new ClimateEyeDelegate()];
         } else {
             return [view];
         }
     }
     
     function getServiceDelegate() {
-        return [new Digital5ServiceDelegate()]; 
+        return [new ClimateEyeServiceDelegate()]; 
     }
 
     function onBackgroundData(data) {
@@ -58,8 +58,68 @@ class Digital5ReloadedApp extends App.AppBase {
                 App.getApp().setProperty("minTemp", data.get("minTemp"));
                 App.getApp().setProperty("maxTemp", data.get("maxTemp"));
             }
+            //App.getApp().setProperty("wind", data.get("wind"));
+            //App.getApp().setProperty("gust", data.get("gust"));
+            //App.getApp().setProperty("direction", data.get("direction"));
             // rain, snow, sleet, wind, fog, cloudy
             // https://openweathermap.org/weather-conditions#How-to-get-icon-URL
+
+            App.getApp().setProperty("wind", data.get("wind"));
+            var gust = data.get("gust");
+            if (gust == null) {
+                gust = data.get("wind");
+            }
+            App.getApp().setProperty("gust", gust);
+
+            var degrees = data.get("direction");
+                        System.println("degrees " + degrees);
+            var deg;
+            var direction = "-";
+            if (openWeather){
+              if (degrees != null){
+                degrees = Toybox.Math.round(degrees/22.5).toLong()+1;
+                deg = degrees;
+                        System.println("mod " + deg);
+                if (deg == 1) {
+                  App.getApp().setProperty("direction", "N");
+                } else if (deg == 2){
+                  App.getApp().setProperty("direction", "NNE");
+                } else if (deg == 3){
+                  App.getApp().setProperty("direction", "NE");
+                } else if (deg == 4){
+                  App.getApp().setProperty("direction", "ENE");
+                } else if (deg == 5){
+                  App.getApp().setProperty("direction", "E");
+                } else if (deg == 6){
+                  App.getApp().setProperty("direction", "ESE");
+                } else if (deg == 7){
+                  App.getApp().setProperty("direction", "SE");
+                } else if (deg == 8){
+                  App.getApp().setProperty("direction", "SSE");
+                } else if (deg == 9){
+                  App.getApp().setProperty("direction", "S");
+                } else if (deg == 10){
+                  App.getApp().setProperty("direction", "SSW");
+                } else if (deg == 11){
+                  App.getApp().setProperty("direction", "SW");
+                } else if (deg == 12){
+                  App.getApp().setProperty("direction", "WSW");
+                } else if (deg == 13){
+                  App.getApp().setProperty("direction", "W");
+                } else if (deg == 14){
+                  App.getApp().setProperty("direction", "WNW");
+                } else if (deg == 15){
+                  App.getApp().setProperty("direction", "NW");
+                } else if (deg == 16){
+                  App.getApp().setProperty("direction", "NNW");
+                } else if (deg == 17){
+                  App.getApp().setProperty("direction", "N");
+                } else {
+                  App.getApp().setProperty("direction", "-");
+                }
+              }
+            }
+                        System.println("direction " + App.getApp().getProperty("direction"));
 
             var icon = data.get("icon");
             if (openWeather){

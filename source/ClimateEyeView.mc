@@ -13,7 +13,7 @@ using Toybox.Ant as Ant;
 using Toybox.SensorHistory as Sensor;
 
 
-class Digital5View extends Ui.WatchFace {
+class ClimateEyeView extends Ui.WatchFace {
 
     var is24Hour;
     var secondsAlwaysOn;
@@ -675,6 +675,7 @@ class Digital5View extends Ui.WatchFace {
                 break;
             case 13: drawWithUnit(xyPositions, dc, 13, BOTTOM_FIELD); break;
             case 14: drawCalories(xyPositions, dc, ACTIVE_KCAL_REACHED, BOTTOM_FIELD); break;
+            case 15: drawWithUnit(xyPositions, dc, 15, BOTTOM_FIELD); break;
         }
         onPartialUpdate(dc);
         updateLocation();
@@ -849,7 +850,7 @@ class Digital5View extends Ui.WatchFace {
                 fieldText = null == pressure ? "-" : ((pressure.data.toFloat() + pressureOffset) / 100.0).format("%.2f");
                 unitText = "mb";
                 break;
-            case 13: // 
+            case 13: // weather
                 if (apiKey.length() > 0) {
                         
                     if (field == BOTTOM_FIELD) { textX += 10; }
@@ -858,7 +859,8 @@ class Digital5View extends Ui.WatchFace {
                     
                    if (currentWeather) {
                         var temp = App.getApp().getProperty("temp");
-                       if (!(temp instanceof Toybox.Lang.Float)) {
+                    //System.println(temp);
+                       if (!(temp instanceof Toybox.Lang.Float) and !(temp instanceof Toybox.Lang.Long)) {
                             fieldText = "----";
                             unitText = "";
                             break;
@@ -896,6 +898,45 @@ class Digital5View extends Ui.WatchFace {
                     break;
                 }
                 unitText = tempUnit == 0 ? "C" : "F";
+                break;
+            case 15: // wind
+                if (apiKey.length() > 0) {
+                        
+                    if (field == BOTTOM_FIELD) { textX += 10; }
+                    var dsResult = App.getApp().getProperty("dsResult");
+                    var tempwind;
+                    var tempgust;
+                   if (currentWeather) {
+                        var wind = App.getApp().getProperty("wind");
+                        var gust = App.getApp().getProperty("gust");
+                        var direction = App.getApp().getProperty("direction");
+                        //System.println("direction " + direction);
+                       if (!(wind instanceof Toybox.Lang.Float)) {
+                            fieldText = "--no dta --";
+                            unitText = "";
+                            break;
+                        } else {
+                            tempwind = wind * 3.6;
+                            if (!(gust instanceof Toybox.Lang.Float)) {
+                              fieldText = direction + tempwind.format("%.1d");
+                            } else {
+                              tempgust = gust * 3.6;
+                              fieldText = direction + tempwind.format("%.1d") + "-" + tempgust.format("%.1d");
+                            } 
+                        }
+                    } 
+                    else {
+                        fieldText = "--apikey--";
+                        unitText = "";
+                        break;
+                    }
+                } 
+                else {
+                    fieldText = "KEY";
+                    unitText = "";
+                    break;
+                }
+                unitText = tempUnit == 0 ? "kph" : "mph";
                 break;
         }
         dc.setColor(fieldForegroundColor, fieldBackgroundColor);
@@ -1388,6 +1429,7 @@ class Digital5View extends Ui.WatchFace {
     function updateLocation() {
         var location = Activity.getActivityInfo().currentLocation;
         if (null != location) {
+          //System.println(location.toDegrees()[0]+","+location.toDegrees()[1]);
             App.getApp().setProperty("UserLat", location.toDegrees()[0].toFloat());
             App.getApp().setProperty("UserLng", location.toDegrees()[1].toFloat());
         }

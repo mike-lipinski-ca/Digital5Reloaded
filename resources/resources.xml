@@ -1,5 +1,5 @@
 <resources>
-    <string id="AppName">Digital5Reloaded</string>
+    <string id="AppName">ClimEye</string>
 
     <bitmap id="LauncherIcon" filename="drawables/launcher_icon.png" />
     <bitmap id="burned" 	  filename="drawables/burned.png"><palette><color>000000</color></palette></bitmap>

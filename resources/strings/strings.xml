@@ -189,4 +189,5 @@
 	<string id="AltUnit">Altitude unit</string>
 	<string id="Meter">Meter</string>
 	<string id="Feet">Feet</string>
+	<string id="Wind">Wind</string>
 </strings>
