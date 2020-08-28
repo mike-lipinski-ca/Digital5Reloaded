@@ -67,7 +67,7 @@ class ClimateEyeApp extends App.AppBase {
             App.getApp().setProperty("wind", data.get("wind"));
             var gust = data.get("gust");
             if (gust == null) {
-                gust = data.get("wind");
+                //gust = data.get("wind");
             }
             App.getApp().setProperty("gust", gust);
 

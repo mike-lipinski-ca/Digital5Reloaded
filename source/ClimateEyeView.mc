@@ -574,8 +574,8 @@ class ClimateEyeView extends Ui.WatchFace {
             calcSunriseSunset();
             drawArrow(dc, .4 * centerX, sunRiseY, 0);
             drawArrow(dc, 1.5 * centerX, sunRiseY, 1);
-            dc.drawText(.4 * centerX + 15, sunRiseY - 5, lcdFont ? digitalUpright20 : robotoCondensed24, sunriseText, Gfx.TEXT_JUSTIFY_LEFT);
-            dc.drawText(1.5 * centerX - 5, sunRiseY - 5, lcdFont ? digitalUpright20 : robotoCondensed24, sunsetText, Gfx.TEXT_JUSTIFY_RIGHT);
+            dc.drawText(.4 * centerX + 15, sunRiseY - 5, lcdFont ? digitalUpright16 : robotoCondensed20, sunriseText, Gfx.TEXT_JUSTIFY_LEFT);
+            dc.drawText(1.5 * centerX - 5, sunRiseY - 5, lcdFont ? digitalUpright16 : robotoCondensed20, sunsetText, Gfx.TEXT_JUSTIFY_RIGHT);
         }
 
 
@@ -859,8 +859,12 @@ class ClimateEyeView extends Ui.WatchFace {
                     
                    if (currentWeather) {
                         var temp = App.getApp().getProperty("temp");
+                        if (!(temp instanceof Toybox.Lang.Float)) {
+                          //System.println("."+temp+".");
+                          temp = temp.toFloat();
+                        }
                     //System.println(temp);
-                       if (!(temp instanceof Toybox.Lang.Float) and !(temp instanceof Toybox.Lang.Long)) {
+                       if (!(temp instanceof Toybox.Lang.Float)) {
                             fieldText = "----";
                             unitText = "";
                             break;
@@ -902,7 +906,7 @@ class ClimateEyeView extends Ui.WatchFace {
             case 15: // wind
                 if (apiKey.length() > 0) {
                         
-                    if (field == BOTTOM_FIELD) { textX += 10; }
+                    if (field == BOTTOM_FIELD) { textX += 15; }
                     var dsResult = App.getApp().getProperty("dsResult");
                     var tempwind;
                     var tempgust;
@@ -940,7 +944,12 @@ class ClimateEyeView extends Ui.WatchFace {
                 break;
         }
         dc.setColor(fieldForegroundColor, fieldBackgroundColor);
-        dc.drawText(textX, textY, GetFieldFont(field, false), fieldText, Gfx.TEXT_JUSTIFY_RIGHT);
+        //if (sensor == 15) {
+        //  dc.drawText(textX, textY, digitalUpright16, fieldText, Gfx.TEXT_JUSTIFY_RIGHT);
+          //lcdFontDataFields ? digitalUpright20 : robotoCondensed24;
+        //} else {
+          dc.drawText(textX, textY, GetFieldFont(field, false), fieldText, Gfx.TEXT_JUSTIFY_RIGHT);
+        //}
         drawUnitText(xyPositions, dc, unitText, field);
     }
     
@@ -1428,8 +1437,8 @@ class ClimateEyeView extends Ui.WatchFace {
 
     function updateLocation() {
         var location = Activity.getActivityInfo().currentLocation;
-        if (null != location) {
           //System.println(location.toDegrees()[0]+","+location.toDegrees()[1]);
+        if (null != location) {
             App.getApp().setProperty("UserLat", location.toDegrees()[0].toFloat());
             App.getApp().setProperty("UserLng", location.toDegrees()[1].toFloat());
         }

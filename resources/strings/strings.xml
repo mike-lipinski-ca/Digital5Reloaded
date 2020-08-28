@@ -190,4 +190,5 @@
 	<string id="Meter">Meter</string>
 	<string id="Feet">Feet</string>
 	<string id="Wind">Wind</string>
+	<string id="Gust">Gust</string>
 </strings>

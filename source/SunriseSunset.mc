@@ -41,6 +41,7 @@ class SunRiseSunSet {
         var day    = dayOfTheYear();
         var lat    = App.getApp().getProperty("UserLat").toFloat();
         var lng    = App.getApp().getProperty("UserLng").toFloat();
+        //System.println(lat + ", " + lng);
         var zenith = 90.83333333333333;
         var D2R    = Math.PI / 180;
         var R2D    = 180.0 / Math.PI;
@@ -89,6 +90,9 @@ class SunRiseSunSet {
 
         // Current timezone offset from settings
         var currentTimezoneOffset = App.getApp().getProperty("CurrentTimezoneOffset").toFloat() / 3600.0;
+        var tzo = System.getClockTime();
+        currentTimezoneOffset = tzo.timeZoneOffset / 3600;
+        //System.println(currentTimezoneOffset);
 
         // Take current timezone daylight saving time into account from settings
         if (App.getApp().getProperty("CurrentDST")) {

@@ -5,7 +5,7 @@
     <property id="Height" type="number">189</property>
     <property id="Age"    type="number">53</property>
     
-    <property id="LcdBackground" type="boolean">true</property>
+    <property id="LcdBackground" type="boolean">false</property>
     
     <property id="LcdFont" type="boolean">true</property>
     
@@ -35,13 +35,13 @@
     
     <property id="ShowCalorieBar" type="boolean">true</property>
     
-    <property id="ColoredBattery" type="boolean">false</property>
+    <property id="ColoredBattery" type="boolean">true</property>
     
-    <property id="ColorizeStepText" type="boolean">false</property>
+    <property id="ColorizeStepText" type="boolean">true</property>
     
-    <property id="ColorizeCalorieText" type="boolean">false</property>
+    <property id="ColorizeCalorieText" type="boolean">true</property>
     
-    <property id="SecondsAlwaysOn" type="boolean">false</property>
+    <property id="SecondsAlwaysOn" type="boolean">true</property>
     
     <property id="HourColor" type="number">0xFFFFFF</property>
     <property id="MinuteColor" type="number">0xFFFFFF</property>
@@ -55,7 +55,7 @@
     <property id="UpperLeftField" type="number">13</property>
     <property id="UpperRightField" type="number">5</property>
     <property id="LowerLeftField" type="number">3</property>
-    <property id="LowerRightField" type="number">4</property>
+    <property id="LowerRightField" type="number">1</property>
     <property id="BottomField" type="number">15</property>
     
     <property id="DarkUpperBackground" type="boolean">true</property>
@@ -66,9 +66,9 @@
     
     <property id="UserLng" type="float">-104.54142</property>
     
-    <property id="SunriseSunset" type="boolean">false</property>
+    <property id="SunriseSunset" type="boolean">true</property>
     
-    <property id="CurrentTimezoneOffset" type="number">3600</property>
+    <property id="CurrentTimezoneOffset" type="number">21600</property>
     
     <property id="CurrentDST" type="boolean">false</property>
     
