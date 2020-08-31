@@ -17,6 +17,6 @@
         <font id="robotoCondensed72" antialias="true" filename="fonts/RobotoCondensed_72.fnt" filter="0123456789:"/>
         <font id="robotoCondensed24" antialias="true" filename="fonts/RobotoCondensed_24.fnt" filter="apmCDKW0123456789:.- /"/>
         <font id="roboto26" antialias="true" filename="fonts/Roboto_26.fnt" filter="ABDCDEFGHIJKLMNOPRSTUVWYZ0123456789.:/ "/>
-        <font id="robotoCondensed7" antialias="true" filename="fonts/RobotoCondensed_7.fnt" filter="CFbcfikmt"/>
+        <font id="robotoCondensed7" antialias="true" filename="fonts/RobotoCondensed_7.fnt" filter="CFbcfikmtNWSEs"/>
     </fonts>
 </resources>
