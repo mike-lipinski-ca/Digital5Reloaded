@@ -53,9 +53,9 @@
     <property id="ActiveKcalGoal" type="number">3000</property>
     
     <property id="UpperLeftField" type="number">13</property>
-    <property id="UpperRightField" type="number">5</property>
+    <property id="UpperRightField" type="number">0</property>
     <property id="LowerLeftField" type="number">3</property>
-    <property id="LowerRightField" type="number">1</property>
+    <property id="LowerRightField" type="number">2</property>
     <property id="BottomField" type="number">15</property>
     
     <property id="DarkUpperBackground" type="boolean">true</property>

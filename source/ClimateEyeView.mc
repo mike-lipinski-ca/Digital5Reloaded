@@ -860,8 +860,10 @@ class ClimateEyeView extends Ui.WatchFace {
                    if (currentWeather) {
                         var temp = App.getApp().getProperty("temp");
                         if (!(temp instanceof Toybox.Lang.Float)) {
-                          //System.println("."+temp+".");
-                          temp = temp.toFloat();
+                           //System.println("."+temp+".");
+                          if ((temp instanceof Toybox.Lang.Number) or (temp instanceof Toybox.Lang.Long)) {
+                            temp = temp.toFloat();
+                          }
                         }
                     //System.println(temp);
                        if (!(temp instanceof Toybox.Lang.Float)) {
@@ -906,7 +908,7 @@ class ClimateEyeView extends Ui.WatchFace {
             case 15: // wind
                 if (apiKey.length() > 0) {
                         
-                    if (field == BOTTOM_FIELD) { textX += 15; }
+                    //if (field == BOTTOM_FIELD) { textX += 5; }
                     var dsResult = App.getApp().getProperty("dsResult");
                     var tempwind;
                     var tempgust;
@@ -921,13 +923,20 @@ class ClimateEyeView extends Ui.WatchFace {
                             break;
                         } else {
                             tempwind = wind * 3.6;
+                            unitText = direction;
+                            //System.println("direction: " +unitText);
                             if (!(gust instanceof Toybox.Lang.Float)) {
-                              fieldText = direction + tempwind.format("%.1d");
+                              fieldText = tempwind.format("%.1d");
                             } else {
                               tempgust = gust * 3.6;
-                              fieldText = direction + tempwind.format("%.1d") + "-" + tempgust.format("%.1d");
+                              fieldText = tempwind.format("%.1d") + "-" + tempgust.format("%.1d");
                             } 
                         }
+//                        var len = fieldText.length();
+//                        len = (10 - len) / 2;
+//                        if (len > 2) {
+//                          fieldText = fieldText + "   ";
+//                        }
                     } 
                     else {
                         fieldText = "--apikey--";
@@ -940,16 +949,12 @@ class ClimateEyeView extends Ui.WatchFace {
                     unitText = "";
                     break;
                 }
-                unitText = tempUnit == 0 ? "kph" : "mph";
+                //unitText = tempUnit == 0 ? "kph" : "mph";
                 break;
         }
         dc.setColor(fieldForegroundColor, fieldBackgroundColor);
-        //if (sensor == 15) {
-        //  dc.drawText(textX, textY, digitalUpright16, fieldText, Gfx.TEXT_JUSTIFY_RIGHT);
-          //lcdFontDataFields ? digitalUpright20 : robotoCondensed24;
-        //} else {
-          dc.drawText(textX, textY, GetFieldFont(field, false), fieldText, Gfx.TEXT_JUSTIFY_RIGHT);
-        //}
+        dc.drawText(textX, textY, GetFieldFont(field, false), fieldText, Gfx.TEXT_JUSTIFY_RIGHT);
+        //System.println(unitText);
         drawUnitText(xyPositions, dc, unitText, field);
     }
     
@@ -993,6 +998,9 @@ class ClimateEyeView extends Ui.WatchFace {
             case "f":
                 //drawCharacter(xyPositions, dc, F, 6);
                 dc.drawText(unitX, unitY, robotoCondensed7, unitText, Gfx.TEXT_JUSTIFY_LEFT);
+                break;
+            default:
+                dc.drawText(unitX-100, unitY, digitalUpright20, unitText, Gfx.TEXT_JUSTIFY_LEFT);
                 break;
             }          
             return;
