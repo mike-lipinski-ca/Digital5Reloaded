@@ -859,7 +859,7 @@ class ClimateEyeView extends Ui.WatchFace {
                     
                    if (currentWeather) {
                         var temp = App.getApp().getProperty("temp");
-                        if (!(temp instanceof Toybox.Lang.Float)) {
+                        if ((temp != null)) {
                           //System.println("."+temp+".");
                           temp = temp.toFloat();
                         }
