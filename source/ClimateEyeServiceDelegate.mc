@@ -47,6 +47,19 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
         Comm.makeWebRequest(url, null, options, method(:onReceiveOpenWeather));
     }
     
+    function makeOpenWeatherUVRequest(lat, lng, apiKey) {
+        var currentWeather = App.getApp().getProperty("CurrentWeather");
+        var url            = "https://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + lat.toString() + "&lon=" + lng.toString() + "&appid=" + apiKey;
+        System.println(url);
+        var options = {
+            :methods => Comm.HTTP_REQUEST_METHOD_GET,
+            :headers => { "Content-Type" => Comm.REQUEST_CONTENT_TYPE_JSON },
+            :responseType => Comm.HTTP_RESPONSE_CONTENT_TYPE_JSON
+        };
+                
+        Comm.makeWebRequest(url, null, options, method(:onReceiveOpenWeatherUV));
+    }
+
     function onReceiveOpenWeather(responseCode, data) {
     System.println(data);
         if (responseCode == 200) {
@@ -88,6 +101,23 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
         } else {
             var dict = { "msg" => responseCode + " FAIL" };
             Background.exit(dict);
+        }
+    }
+    
+    function onReceiveOpenWeatherUV(responseCode, data) {
+    System.println(data);
+        if (responseCode == 200) {
+            if (data instanceof Lang.String && data.equals("Forbidden")) {
+                var dict = { "msg" => "KEY" };
+                Background.exit("KEY");
+            } else {
+                var currentWeather = App.getApp().getProperty("CurrentWeather");
+                var uv = data.get("value");
+                background.exit(data.get("value"));
+            }
+        } else {
+            var dict = { "msg" => responseCode + " FAIL" };
+            Background.exit("FAIL");
         }
     }
     
