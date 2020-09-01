@@ -1,5 +1,5 @@
 include properties.mk
-#  %comspec% /k "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat"
+#  %comspec% /k "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\Common7\Tools\VsDevCmd.bat"
 
 appName = `grep entry manifest.xml | sed 's/.*entry="\([^"]*\).*/\1/'`
 appName = ClimateEye
