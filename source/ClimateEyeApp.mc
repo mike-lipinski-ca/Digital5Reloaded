@@ -73,6 +73,7 @@ class ClimateEyeApp extends App.AppBase {
                 //gust = data.get("wind");
             }
             App.getApp().setProperty("gust", gust);
+            App.getApp().setProperty("City", data.get("name"));
 
             var degrees = data.get("direction");
                         System.println("degrees " + degrees);

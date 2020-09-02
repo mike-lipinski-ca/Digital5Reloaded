@@ -101,21 +101,22 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
                 Background.exit(dict);
             } else {
                 var currentWeather = App.getApp().getProperty("CurrentWeather");
-                var main = data.get("main");
-                var weather = data.get("weather")[0];
-                var wind = data.get("wind");
-                System.println("temp: " + main.get("temp"));
-                System.println("speed: " + wind.get("speed"));
-                System.println("gust: " + wind.get("gust"));
-                System.println("direction: " + wind.get("deg"));
+                //var main = data.get("main");
+                //var weather = data.get("weather")[0];
+                //var wind = data.get("wind");
+                System.println("temp: " + data["main"]["temp"]);
+                System.println("speed: " + data["wind"]["speed"]);
+                System.println("gust: " + data["wind"]["gust"]);
+                System.println("direction: " + data["wind"]["deg"]);
                 System.println("uv: " + uv);
                 if (currentWeather) {
                     var dict = {
-                        "icon" => weather.get("icon"),
-                        "temp" => main.get("temp"),
-                        "wind" => wind.get("speed"),
-                        "gust" => wind.get("gust"),
-                        "direction" => wind.get("deg"),
+                        "icon" => data["weather"][0]["icon"],
+                        "temp" => data["main"]["temp"],
+                        "wind" => data["wind"]["speed"],
+                        "gust" => data["wind"]["gust"],
+                        "direction" => data["wind"]["deg"],
+                        "name" => data["name"],
                         "UV" => uv,
                         "msg"  => "CURRENTLY"
                     };
@@ -123,12 +124,13 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
 
                 } else {
                     var dict = {
-                        "icon"    => weather.get("icon"),
-                        "minTemp" => main.get("temp_min"),
-                        "maxTemp" => main.get("temp_max"),
-                        "wind" => wind.get("speed"),
-                        "gust" => wind.get("gust"),
-                        "direction" => wind.get("deg"),
+                        "icon" => data["weather"][0]["icon"],
+                        "minTemp" => data["main"]["temp_min"],
+                        "maxTemp" => data["main"]["temp_max"],
+                        "wind" => data["wind"]["speed"],
+                        "gust" => data["wind"]["gust"],
+                        "direction" => data["wind"]["deg"],
+                        "name" => data["name"],
                         "UV" => uv,
                         "msg"     => "DAILY"
                     };
