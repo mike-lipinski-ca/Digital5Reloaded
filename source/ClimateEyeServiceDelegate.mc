@@ -24,6 +24,12 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
         
         var lat    = App.getApp().getProperty("UserLat").toFloat();
         var lng    = App.getApp().getProperty("UserLng").toFloat();
+        var sunRise = App.getApp().getProperty("sunrise");
+        var sunSet = App.getApp().getProperty("sunset");
+        var UVStartHH = Math.floor(sunRise).toNumber();
+        if (UVStartHH < 8) {UVStartHH=8;}
+        var UVEndHH = Math.floor(sunSet).toNumber();
+        if (UVEndHH > 18) {UVEndHH=18;}        
         
         if (System.getDeviceSettings().phoneConnected &&
             apiKey.length() > 0 &&
@@ -33,7 +39,7 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
                 var clockTime = System.getClockTime();
                 // ok, gonna hardcode this in right now, but should probably do something better later.
                 // doing this to get around the limit of 50 calls per day for UV
-                if (clockTime.hour > 10 and clockTime.hour < 16) {
+                if (clockTime.hour > UVStartHH and clockTime.hour < UVEndHH) {
                   System.println("UV Request");
                   //makeOpenWeatherUVRequest(lat, lng, apiKey);
                   makeOpenUVRequest(lat, lng, uvApiKey);
@@ -75,7 +81,7 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
     }
 
     function makeOpenUVRequest(lat, lng, apiKey) {
-        var url            = "https://api.openuv.io/api/v1/uv?lat" + lat.toString() + "&lng=" + lng.toString();
+        var url            = "https://api.openuv.io/api/v1/uv?lat=" + lat.toString() + "&lng=" + lng.toString();
         System.println(url);
         var options = {
             :methods => Comm.HTTP_REQUEST_METHOD_GET,
