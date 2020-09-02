@@ -3,6 +3,8 @@ using Toybox.System;
 using Toybox.Application as App;
 using Toybox.Communications as Comm;
 
+var uv;
+
 (:background)
 class ClimateEyeServiceDelegate extends System.ServiceDelegate {
     
@@ -26,7 +28,11 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
             apiKey.length() > 0 &&
             (null != lat && null != lng)) {
             if (openWeather){
-                makeOpenWeatherRequest(lat, lng, apiKey);
+                uv = null;
+                System.println("UV Request");
+                makeOpenWeatherUVRequest(lat, lng, apiKey);
+                //System.println("weather Request");
+                //makeOpenWeatherRequest(lat, lng, apiKey);
             } else {
                 makeDarkSkyRequest(lat, lng, apiKey);
             }
@@ -49,7 +55,7 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
     
     function makeOpenWeatherUVRequest(lat, lng, apiKey) {
         var currentWeather = App.getApp().getProperty("CurrentWeather");
-        var url            = "https://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + lat.toString() + "&lon=" + lng.toString() + "&appid=" + apiKey;
+        var url            = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat.toString() + "&lon=" + lng.toString() + "&appid=" + apiKey;
         System.println(url);
         var options = {
             :methods => Comm.HTTP_REQUEST_METHOD_GET,
@@ -75,6 +81,7 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
                 System.println("speed: " + wind.get("speed"));
                 System.println("gust: " + wind.get("gust"));
                 System.println("direction: " + wind.get("deg"));
+                System.println("uv: " + uv);
                 if (currentWeather) {
                     var dict = {
                         "icon" => weather.get("icon"),
@@ -82,9 +89,11 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
                         "wind" => wind.get("speed"),
                         "gust" => wind.get("gust"),
                         "direction" => wind.get("deg"),
+                        "UV" => uv,
                         "msg"  => "CURRENTLY"
                     };
-                    Background.exit(dict);
+                  Background.exit(dict);
+
                 } else {
                     var dict = {
                         "icon"    => weather.get("icon"),
@@ -93,6 +102,7 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
                         "wind" => wind.get("speed"),
                         "gust" => wind.get("gust"),
                         "direction" => wind.get("deg"),
+                        "UV" => uv,
                         "msg"     => "DAILY"
                     };
                     Background.exit(dict);
@@ -108,15 +118,20 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
     System.println(data);
         if (responseCode == 200) {
             if (data instanceof Lang.String && data.equals("Forbidden")) {
-                var dict = { "msg" => "KEY" };
+                var dict = { "msg" => "UVKEY" };
                 Background.exit("KEY");
             } else {
                 var currentWeather = App.getApp().getProperty("CurrentWeather");
-                var uv = data.get("value");
-                background.exit(data.get("value"));
+                uv = data.get("value");
+                System.println("uv: " + uv);
+                var dict = { "UV" => uv,
+                   "msg" => "UV"
+                   };
+                makeOpenWeatherRequest(data.get("lat"), data.get("lon"), App.getApp().getProperty("OpenWeatherApiKey"));
+                //Background.exit(dict);
             }
         } else {
-            var dict = { "msg" => responseCode + " FAIL" };
+            var dict = { "msg" => responseCode + " UVFAIL" };
             Background.exit("FAIL");
         }
     }

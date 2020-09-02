@@ -41,6 +41,7 @@ class ClimateEyeApp extends App.AppBase {
     }
 
     function onBackgroundData(data) {
+      //System.println("onBAckgrounddata");
     	var openWeather = false;
     	var apiKey = App.getApp().getProperty("OpenWeatherApiKey");
     	if (apiKey.length() > 0) {
@@ -49,20 +50,22 @@ class ClimateEyeApp extends App.AppBase {
     	  apiKey = App.getApp().getProperty("DarkSkyApiKey");
     	}
     	    
-        if (data instanceof Dictionary) {
-            var msg = data.get("msg");
-            App.getApp().setProperty("dsResult", msg);
-            if (msg.equals("CURRENTLY")) {
-                App.getApp().setProperty("temp", data.get("temp"));
-            } else if (msg.equals("DAILY")) {
-                App.getApp().setProperty("minTemp", data.get("minTemp"));
-                App.getApp().setProperty("maxTemp", data.get("maxTemp"));
-            }
-            //App.getApp().setProperty("wind", data.get("wind"));
-            //App.getApp().setProperty("gust", data.get("gust"));
-            //App.getApp().setProperty("direction", data.get("direction"));
-            // rain, snow, sleet, wind, fog, cloudy
-            // https://openweathermap.org/weather-conditions#How-to-get-icon-URL
+      //System.println("Data: " + data);
+      if (data instanceof Dictionary) {
+          var msg = data.get("msg");
+          System.println("msg " + msg);
+          App.getApp().setProperty("dsResult", msg);
+          if (msg.equals("CURRENTLY")) {
+              App.getApp().setProperty("temp", data.get("temp"));
+              App.getApp().setProperty("UV", data.get("UV"));
+          } else if (msg.equals("DAILY")) {
+              App.getApp().setProperty("minTemp", data.get("minTemp"));
+              App.getApp().setProperty("maxTemp", data.get("maxTemp"));
+          }
+          // rain, snow, sleet, wind, fog, cloudy
+          // https://openweathermap.org/weather-conditions#How-to-get-icon-URL
+
+          if (msg.equals("CURRENTLY") or msg.equals("DAILY")) {
 
             App.getApp().setProperty("wind", data.get("wind"));
             var gust = data.get("gust");
@@ -129,7 +132,7 @@ class ClimateEyeApp extends App.AppBase {
                   // clear
                   App.getApp().setProperty("icon", 0);
               } else if (icon.equals("09d") || icon.equals("09n") || icon.equals("10d") || icon.equals("10n")) {
-              	// rain
+                // rain
                   App.getApp().setProperty("icon", 1);
               } else if (icon.equals("03d") || icon.equals("03n") || icon.equals("04d") || icon.equals("04n")) {
                   // partly cloudy
@@ -168,8 +171,10 @@ class ClimateEyeApp extends App.AppBase {
                   App.getApp().setProperty("icon", 7);
               }
             }
-            WatchUi.requestUpdate();
-        }
+          }
+          WatchUi.requestUpdate();
+      } 
+
     }
 
     function onSettingsChanged() {

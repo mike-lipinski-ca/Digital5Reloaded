@@ -859,9 +859,15 @@ class ClimateEyeView extends Ui.WatchFace {
                     
                    if (currentWeather) {
                         var temp = App.getApp().getProperty("temp");
+                        var UV = App.getApp().getProperty("UV");
+                        //System.println("uv " + UV);
                         if ((temp != null)) {
                           //System.println("."+temp+".");
                           temp = temp.toFloat();
+                        }
+                        if ((UV != null)) {
+                          //System.println("."+temp+".");
+                          UV = UV.toFloat();
                         }
                     //System.println(temp);
                        if (!(temp instanceof Toybox.Lang.Float)) {
@@ -873,7 +879,12 @@ class ClimateEyeView extends Ui.WatchFace {
                             icon = App.getApp().getProperty("icon");
                             var bmpX  = xyPositions[0];
                             var bmpY  = xyPositions[1];
-                            fieldText = temp.format("%.1f");
+                            if (UV != null) {
+                              fieldText = temp.format("%.1f") + " - " + UV.format("%.0f");
+                            } else {
+                              fieldText = temp.format("%.1f");
+                            }
+                            
                         }
                     } 
                     else {
