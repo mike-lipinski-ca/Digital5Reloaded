@@ -15,6 +15,7 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
     function onTemporalEvent() {
     	var openWeather = false;
     	var apiKey = App.getApp().getProperty("OpenWeatherApiKey");
+    	var uvApiKey = App.getApp().getProperty("OpenUVApiKey");
     	if (apiKey.length() > 0) {
     		openWeather = true;
     	} else {
@@ -29,10 +30,17 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
             (null != lat && null != lng)) {
             if (openWeather){
                 uv = null;
-                System.println("UV Request");
-                makeOpenWeatherUVRequest(lat, lng, apiKey);
-                //System.println("weather Request");
-                //makeOpenWeatherRequest(lat, lng, apiKey);
+                var clockTime = System.getClockTime();
+                // ok, gonna hardcode this in right now, but should probably do something better later.
+                // doing this to get around the limit of 50 calls per day for UV
+                if (clockTime.hour > 10 and clockTime.hour < 16) {
+                  System.println("UV Request");
+                  //makeOpenWeatherUVRequest(lat, lng, apiKey);
+                  makeOpenUVRequest(lat, lng, uvApiKey);
+                } else {
+                  System.println("weather Request");
+                  makeOpenWeatherRequest(lat, lng, apiKey);
+                }
             } else {
                 makeDarkSkyRequest(lat, lng, apiKey);
             }
@@ -66,6 +74,19 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
         Comm.makeWebRequest(url, null, options, method(:onReceiveOpenWeatherUV));
     }
 
+    function makeOpenUVRequest(lat, lng, apiKey) {
+        var url            = "https://api.openuv.io/api/v1/uv?lat" + lat.toString() + "&lng=" + lng.toString();
+        System.println(url);
+        var options = {
+            :methods => Comm.HTTP_REQUEST_METHOD_GET,
+            :headers => { "Content-Type" => Comm.REQUEST_CONTENT_TYPE_JSON, 
+                           "x-access-token"=> "4faec78c46a3f9361e2c48c844794b18"
+                       },
+            :responseType => Comm.HTTP_RESPONSE_CONTENT_TYPE_JSON
+        };
+                
+        Comm.makeWebRequest(url, null, options, method(:onReceiveOpenUV));
+    }
     function onReceiveOpenWeather(responseCode, data) {
     System.println(data);
         if (responseCode == 200) {
@@ -119,7 +140,7 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
         if (responseCode == 200) {
             if (data instanceof Lang.String && data.equals("Forbidden")) {
                 var dict = { "msg" => "UVKEY" };
-                Background.exit("KEY");
+                //Background.exit("KEY");
             } else {
                 var currentWeather = App.getApp().getProperty("CurrentWeather");
                 uv = data.get("value");
@@ -127,15 +148,39 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
                 var dict = { "UV" => uv,
                    "msg" => "UV"
                    };
-                makeOpenWeatherRequest(data.get("lat"), data.get("lon"), App.getApp().getProperty("OpenWeatherApiKey"));
-                //Background.exit(dict);
             }
         } else {
             var dict = { "msg" => responseCode + " UVFAIL" };
-            Background.exit("FAIL");
+            //Background.exit("FAIL");
         }
+        // have to make sure we don't exit the background in failure - need to still get the weather.
+    	var apiKey = App.getApp().getProperty("OpenWeatherApiKey");
+        var lat    = App.getApp().getProperty("UserLat").toFloat();
+        var lng    = App.getApp().getProperty("UserLng").toFloat();
+        makeOpenWeatherRequest(lat, lng, apiKey);
+        //Background.exit(dict);
     }
     
+    function onReceiveOpenUV(responseCode, data) {
+    System.println(data);
+        if (responseCode == 200) {
+            if (data instanceof Lang.String && data.equals("Forbidden")) {
+            } else {
+                var result = data.get("result");
+                uv = result.get("uv");
+                System.println("uv: " + uv);
+            }
+        }
+        // have to make sure we don't exit the background in failure - need to still get the weather.
+    	var apiKey = App.getApp().getProperty("OpenWeatherApiKey");
+        var lat    = App.getApp().getProperty("UserLat").toFloat();
+        var lng    = App.getApp().getProperty("UserLng").toFloat();
+        makeOpenWeatherRequest(lat, lng, apiKey);
+        //Background.exit(dict);
+    }
+    
+
+
     function makeDarkSkyRequest(lat, lng, apiKey) {
         var currentWeather = App.getApp().getProperty("CurrentWeather");
         var url            = "https://api.darksky.net/forecast/" + apiKey + "/" + lat.toString() + "," + lng.toString();

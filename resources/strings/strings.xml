@@ -180,6 +180,8 @@
 
 	<string id="OpenWeatherApiKey">OpenWeather API Key</string>
 
+	<string id="OpenUVApiKey">OpenUV API Key</string>
+
 	<string id="CurrentWeather">Current (checked)/ Daily (unchecked) Weather</string>
 	
 	<string id="TempUnit">Temperature Unit</string>

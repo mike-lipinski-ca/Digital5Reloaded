@@ -78,6 +78,8 @@
     
     <property id="OpenWeatherApiKey" type="string">6480ff562a69be570ab2e8e8c0d0342a</property>
 
+    <property id="OpenUVApiKey" type="string">4faec78c46a3f9361e2c48c844794b18</property>
+
     <property id="TempUnit" type="number">0</property>
 
     <property id="AltUnit" type="number">0</property>

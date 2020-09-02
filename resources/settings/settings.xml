@@ -358,6 +358,10 @@
     		<settingConfig type="alphanumeric" maxLength="32"/>
     </setting>
     
+    <setting propertyKey="@Properties.OpenUVApiKey" title="@Strings.OpenUVApiKey">
+    		<settingConfig type="alphanumeric" maxLength="32"/>
+    </setting>
+    
     <setting propertyKey="@Properties.TempUnit" title="@Strings.TempUnit">
         <settingConfig type="list">
             <listEntry value="0">@Strings.Celsius</listEntry>
