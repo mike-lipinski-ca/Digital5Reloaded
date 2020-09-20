@@ -64,7 +64,7 @@ class ClimateEyeView extends Ui.WatchFace {
     var sunsetText         = "--:--";
     var currentWeather;
     var digitalUpright72, digitalUpright26, digitalUpright24, digitalUpright20, digitalUpright16;
-    var robotoCondensed72, robotoCondensed24, roboto26, robotoCondensed7, robotoCondensed20, roboto20;
+    var robotoCondensed72, robotoCondensed24, roboto26, robotoCondensed7, robotoCondensed20, roboto20, roboto16;
     var burnedIcon, burnedIconWhite, stepsIcon, stepsIconWhite;
     var alarmIcon, alarmIconWhite;
     var width, height;
@@ -116,6 +116,7 @@ class ClimateEyeView extends Ui.WatchFace {
         robotoCondensed72 = Ui.loadResource(Rez.Fonts.robotoCondensed72);
         roboto26 = Ui.loadResource(Rez.Fonts.roboto26);
         roboto20 = Ui.loadResource(Rez.Fonts.roboto20);
+        roboto16 = Ui.loadResource(Rez.Fonts.roboto16);
         robotoCondensed24 = Ui.loadResource(Rez.Fonts.robotoCondensed24);
         robotoCondensed7 = Ui.loadResource(Rez.Fonts.robotoCondensed7);
         robotoCondensed20 = Ui.loadResource(Rez.Fonts.robotoCondensed20);
@@ -558,6 +559,12 @@ class ClimateEyeView extends Ui.WatchFace {
         } 
         else {
             dc.drawText(centerX, dateYPosition, dateTimeFont, dateTimeText[0], Gfx.TEXT_JUSTIFY_CENTER);
+        }
+
+        //draw city
+        var city = App.getApp().getProperty("City");
+        if (city != null) {
+            dc.drawText(dateXPosition, dateYPosition + 20, roboto16, city, Gfx.TEXT_JUSTIFY_LEFT);
         }
 
 
@@ -1025,7 +1032,7 @@ class ClimateEyeView extends Ui.WatchFace {
                 dc.drawText(unitX, unitY, robotoCondensed7, unitText, Gfx.TEXT_JUSTIFY_LEFT);
                 break;
             default:
-                dc.drawText(unitX-100, unitY, roboto20, unitText, Gfx.TEXT_JUSTIFY_LEFT);
+                dc.drawText(unitX-100, unitY, roboto16, unitText, Gfx.TEXT_JUSTIFY_LEFT);
                 break;
             }          
             return;
