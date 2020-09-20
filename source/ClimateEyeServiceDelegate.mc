@@ -4,6 +4,7 @@ using Toybox.Application as App;
 using Toybox.Communications as Comm;
 
 var uv;
+var aqi;
 
 (:background)
 class ClimateEyeServiceDelegate extends System.ServiceDelegate {
@@ -16,6 +17,7 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
     	var openWeather = false;
     	var apiKey = App.getApp().getProperty("OpenWeatherApiKey");
     	var uvApiKey = App.getApp().getProperty("OpenUVApiKey");
+    	var aqiApiKey = App.getApp().getProperty("WorldAirQualityApiToken");
     	if (apiKey.length() > 0) {
     		openWeather = true;
     	} else {
@@ -36,17 +38,19 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
             (null != lat && null != lng)) {
             if (openWeather){
                 uv = null;
+                aqi = null;
                 var clockTime = System.getClockTime();
                 // ok, gonna hardcode this in right now, but should probably do something better later.
                 // doing this to get around the limit of 50 calls per day for UV
-                if (clockTime.hour > UVStartHH and clockTime.hour < UVEndHH) {
-                  System.println("UV Request");
-                  //makeOpenWeatherUVRequest(lat, lng, apiKey);
-                  makeOpenUVRequest(lat, lng, uvApiKey);
-                } else {
-                  System.println("weather Request");
-                  makeOpenWeatherRequest(lat, lng, apiKey);
-                }
+                //if (clockTime.hour > UVStartHH and clockTime.hour < UVEndHH) {
+                //  System.println("UV Request");
+                //  //makeOpenWeatherUVRequest(lat, lng, apiKey);
+                //  makeOpenUVRequest(lat, lng, uvApiKey);
+                //} else {
+                  System.println("aqi Request");
+                  makeWorldAirQualityRequest(lat, lng, aqiApiKey);
+                  //makeOpenWeatherRequest(lat, lng, apiKey);
+                //}
             } else {
                 makeDarkSkyRequest(lat, lng, apiKey);
             }
@@ -80,19 +84,7 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
         Comm.makeWebRequest(url, null, options, method(:onReceiveOpenWeatherUV));
     }
 
-    function makeOpenUVRequest(lat, lng, apiKey) {
-        var url            = "https://api.openuv.io/api/v1/uv?lat=" + lat.toString() + "&lng=" + lng.toString();
-        System.println(url);
-        var options = {
-            :methods => Comm.HTTP_REQUEST_METHOD_GET,
-            :headers => { "Content-Type" => Comm.REQUEST_CONTENT_TYPE_JSON, 
-                           "x-access-token"=> "4faec78c46a3f9361e2c48c844794b18"
-                       },
-            :responseType => Comm.HTTP_RESPONSE_CONTENT_TYPE_JSON
-        };
-                
-        Comm.makeWebRequest(url, null, options, method(:onReceiveOpenUV));
-    }
+
     function onReceiveOpenWeather(responseCode, data) {
     System.println(data);
         if (responseCode == 200) {
@@ -109,6 +101,7 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
                 System.println("gust: " + wind.get("gust"));
                 System.println("direction: " + wind.get("deg"));
                 System.println("uv: " + uv);
+                System.println("aqi: " + aqi);
                 if (currentWeather) {
                     var dict = {
                         "icon" => weather.get("icon"),
@@ -117,6 +110,7 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
                         "gust" => wind.get("gust"),
                         "direction" => wind.get("deg"),
                         "UV" => uv,
+                        "aqi" => aqi,
                         "msg"  => "CURRENTLY"
                     };
                   Background.exit(dict);
@@ -130,6 +124,7 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
                         "gust" => wind.get("gust"),
                         "direction" => wind.get("deg"),
                         "UV" => uv,
+                        "AQI" => aqi,
                         "msg"     => "DAILY"
                     };
                     Background.exit(dict);
@@ -141,30 +136,18 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
         }
     }
     
-    function onReceiveOpenWeatherUV(responseCode, data) {
-    System.println(data);
-        if (responseCode == 200) {
-            if (data instanceof Lang.String && data.equals("Forbidden")) {
-                var dict = { "msg" => "UVKEY" };
-                //Background.exit("KEY");
-            } else {
-                var currentWeather = App.getApp().getProperty("CurrentWeather");
-                uv = data.get("value");
-                System.println("uv: " + uv);
-                var dict = { "UV" => uv,
-                   "msg" => "UV"
-                   };
-            }
-        } else {
-            var dict = { "msg" => responseCode + " UVFAIL" };
-            //Background.exit("FAIL");
-        }
-        // have to make sure we don't exit the background in failure - need to still get the weather.
-    	var apiKey = App.getApp().getProperty("OpenWeatherApiKey");
-        var lat    = App.getApp().getProperty("UserLat").toFloat();
-        var lng    = App.getApp().getProperty("UserLng").toFloat();
-        makeOpenWeatherRequest(lat, lng, apiKey);
-        //Background.exit(dict);
+    function makeOpenUVRequest(lat, lng, apiKey) {
+        var url            = "https://api.openuv.io/api/v1/uv?lat=" + lat.toString() + "&lng=" + lng.toString();
+        System.println(url);
+        var options = {
+            :methods => Comm.HTTP_REQUEST_METHOD_GET,
+            :headers => { "Content-Type" => Comm.REQUEST_CONTENT_TYPE_JSON, 
+                           "x-access-token"=> "4faec78c46a3f9361e2c48c844794b18"
+                       },
+            :responseType => Comm.HTTP_RESPONSE_CONTENT_TYPE_JSON
+        };
+                
+        Comm.makeWebRequest(url, null, options, method(:onReceiveOpenUV));
     }
     
     function onReceiveOpenUV(responseCode, data) {
@@ -176,6 +159,40 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
                 uv = result.get("uv");
                 System.println("uv: " + uv);
             }
+        }
+        // have to make sure we don't exit the background in failure - need to still get the weather.
+    	var apiKey = App.getApp().getProperty("WorldAirQualityApiToken");
+        var lat    = App.getApp().getProperty("UserLat").toFloat();
+        var lng    = App.getApp().getProperty("UserLng").toFloat();
+        //makeOpenWeatherRequest(lat, lng, apiKey);
+        makeWorldAirQualityRequest(lat, lng, apiKey);
+        //Background.exit(dict);
+    }
+    
+
+    function makeWorldAirQualityRequest(lat, lng, apiKey) {
+        //var url = "https://api.waqi.info/feed/geo:" + lat.toString() + ";" + lng.toString() + "/?token=" + apiKey;
+        var url = "https://api.weatherbit.io/v2.0/current/airquality?key=" + apiKey + "&lat=" + lat.toString() + "&lon=" + lng.toString();
+        System.println(url);
+        var options = {
+            :methods => Comm.HTTP_REQUEST_METHOD_GET,
+            :headers => { "Content-Type" => Comm.REQUEST_CONTENT_TYPE_JSON },
+            :responseType => Comm.HTTP_RESPONSE_CONTENT_TYPE_JSON
+        };
+                
+        Comm.makeWebRequest(url, null, options, method(:onReceiveWorldAirQuality));
+    }
+
+    function onReceiveWorldAirQuality(responseCode, data) {
+    System.println(responseCode);
+    System.println(data);
+        if (responseCode == 200) {
+//            if (data instanceof Lang.String && data.equals("Forbidden")) {
+//            } else {
+                var result = data["data"];
+                aqi = data["data"][0]["aqi"];
+                System.println("aqi: " + aqi);
+ //           }
         }
         // have to make sure we don't exit the background in failure - need to still get the weather.
     	var apiKey = App.getApp().getProperty("OpenWeatherApiKey");

@@ -50,7 +50,7 @@ class ClimateEyeApp extends App.AppBase {
     	  apiKey = App.getApp().getProperty("DarkSkyApiKey");
     	}
     	    
-      //System.println("Data: " + data);
+      System.println("Data: " + data);
       if (data instanceof Dictionary) {
           var msg = data.get("msg");
           System.println("msg " + msg);
@@ -58,6 +58,7 @@ class ClimateEyeApp extends App.AppBase {
           if (msg.equals("CURRENTLY")) {
               App.getApp().setProperty("temp", data.get("temp"));
               App.getApp().setProperty("UV", data.get("UV"));
+              App.getApp().setProperty("aqi", data.get("aqi"));
           } else if (msg.equals("DAILY")) {
               App.getApp().setProperty("minTemp", data.get("minTemp"));
               App.getApp().setProperty("maxTemp", data.get("maxTemp"));

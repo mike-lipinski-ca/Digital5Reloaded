@@ -861,6 +861,7 @@ class ClimateEyeView extends Ui.WatchFace {
                    if (currentWeather) {
                         var temp = App.getApp().getProperty("temp");
                         var UV = App.getApp().getProperty("UV");
+                        var aqi = App.getApp().getProperty("aqi");
                         //System.println("uv " + UV);
                         if ((temp != null)) {
                           //System.println("."+temp+".");
@@ -870,6 +871,12 @@ class ClimateEyeView extends Ui.WatchFace {
                           //System.println("."+temp+".");
                           UV = UV.toFloat();
                         }
+                        //System.println("aqi: " + aqi);
+                        if ((aqi != null)) {
+                          //System.println("."+temp+".");
+                          aqi = aqi.toFloat();
+                        }
+
                     //System.println(temp);
                        if (!(temp instanceof Toybox.Lang.Float)) {
                             fieldText = "----";
@@ -881,9 +888,17 @@ class ClimateEyeView extends Ui.WatchFace {
                             var bmpX  = xyPositions[0];
                             var bmpY  = xyPositions[1];
                             if (UV != null) {
-                              fieldText = temp.format("%.1f") + " - " + UV.format("%.0f");
+                              if (aqi != null) {
+                                fieldText = temp.format("%.1f") + " UV" + UV.format("%.0f") + " AQ" + aqi.format("%.0f");
+                              } else {
+                                fieldText = temp.format("%.1f") + " UV" + UV.format("%.0f") + " AQ" + aqi.format("%.0f");
+                              }
                             } else {
-                              fieldText = temp.format("%.1f");
+                              if (aqi != null) {
+                                fieldText = temp.format("%.1f") + " AQ" + aqi.format("%.0f");
+                              } else {
+                                fieldText = temp.format("%.1f");
+                              }
                             }
                             
                         }
@@ -1470,13 +1485,16 @@ class ClimateEyeView extends Ui.WatchFace {
     
     function GetFieldFont(fieldNumber, isUnitText) {
        if (fieldNumber == BOTTOM_FIELD) {
-             return lcdFontDataFields ? digitalUpright20 : robotoCondensed24;
+//             return lcdFontDataFields ? digitalUpright20 : robotoCondensed24;
+             return robotoCondensed24;
        }
 
        if (isUnitText){
-             return lcdFontDataFields ? digitalUpright16 : robotoCondensed7;
+//             return lcdFontDataFields ? digitalUpright16 : robotoCondensed7;
+             return robotoCondensed7;
        }
-       return lcdFontDataFields ? digitalUpright24 : robotoCondensed24;
+//       return lcdFontDataFields ? digitalUpright24 : roboto20;
+       return roboto20;
     }
     
     /// <summary>

@@ -359,6 +359,10 @@
     </setting>
     
     <setting propertyKey="@Properties.OpenUVApiKey" title="@Strings.OpenUVApiKey">
+    		<settingConfig type="alphanumeric" maxLength="40"/>
+    </setting>
+    
+    <setting propertyKey="@Properties.WorldAirQualityApiToken" title="@Strings.WorldAirQualityApiToken">
     		<settingConfig type="alphanumeric" maxLength="32"/>
     </setting>
     
