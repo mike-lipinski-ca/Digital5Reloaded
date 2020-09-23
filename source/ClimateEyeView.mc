@@ -607,6 +607,8 @@ class ClimateEyeView extends Ui.WatchFace {
             case 12: drawSteps(xyPositions, dc, true); break;
             case 13: drawWithUnit(xyPositions, dc, 13, UPPER_LEFT); break;
             case 14: drawCalories(xyPositions, dc, ACTIVE_KCAL_REACHED, UPPER_LEFT); break;
+            case 16: drawWithUnit(xyPositions, dc, 16, UPPER_LEFT); break;
+            case 17: drawWithUnit(xyPositions, dc, 17, UPPER_LEFT); break;
         }
 
         xyPositions = getXYPositions(UPPER_RIGHT);
@@ -627,6 +629,8 @@ class ClimateEyeView extends Ui.WatchFace {
             case 12: drawSteps(xyPositions, dc, true); break;
             case 13: drawWithUnit(xyPositions, dc, 13, UPPER_RIGHT); break;
             case 14: drawCalories(xyPositions, dc, ACTIVE_KCAL_REACHED, UPPER_RIGHT); break;
+            case 16: drawWithUnit(xyPositions, dc, 16, UPPER_RIGHT); break;
+            case 17: drawWithUnit(xyPositions, dc, 17, UPPER_RIGHT); break;
         }
 
         xyPositions = getXYPositions(LOWER_LEFT);
@@ -642,6 +646,8 @@ class ClimateEyeView extends Ui.WatchFace {
             case 8: drawActiveTime(xyPositions, dc, false, LOWER_LEFT); break;
             case 9: drawFloors(xyPositions, dc, LOWER_LEFT); break;
             case 14: drawCalories(xyPositions, dc, ACTIVE_KCAL_REACHED, LOWER_LEFT); break;
+            case 16: drawWithUnit(xyPositions, dc, 16, LOWER_LEFT); break;
+            case 17: drawWithUnit(xyPositions, dc, 17, LOWER_LEFT); break;
         }
 
         xyPositions = getXYPositions(LOWER_RIGHT);
@@ -657,6 +663,8 @@ class ClimateEyeView extends Ui.WatchFace {
             case 8: drawActiveTime(xyPositions, dc, false, LOWER_RIGHT); break;
             case 9: drawFloors(xyPositions, dc, LOWER_RIGHT); break;
             case 14: drawCalories(xyPositions, dc, ACTIVE_KCAL_REACHED, LOWER_RIGHT); break;
+            case 16: drawWithUnit(xyPositions, dc, 16, LOWER_RIGHT); break;
+            case 17: drawWithUnit(xyPositions, dc, 17, LOWER_RIGHT); break;
         }
 
         // Bottom field
@@ -868,7 +876,6 @@ class ClimateEyeView extends Ui.WatchFace {
                    if (currentWeather) {
                         var temp = App.getApp().getProperty("temp");
                         var UV = App.getApp().getProperty("UV");
-                        var aqi = App.getApp().getProperty("aqi");
                         //System.println("uv " + UV);
                         if ((temp != null)) {
                           //System.println("."+temp+".");
@@ -877,11 +884,6 @@ class ClimateEyeView extends Ui.WatchFace {
                         if ((UV != null)) {
                           //System.println("."+temp+".");
                           UV = UV.toFloat();
-                        }
-                        //System.println("aqi: " + aqi);
-                        if ((aqi != null)) {
-                          //System.println("."+temp+".");
-                          aqi = aqi.toFloat();
                         }
 
                     //System.println(temp);
@@ -895,17 +897,9 @@ class ClimateEyeView extends Ui.WatchFace {
                             var bmpX  = xyPositions[0];
                             var bmpY  = xyPositions[1];
                             if (UV != null) {
-                              if (aqi != null) {
-                                fieldText = temp.format("%.1f") + " UV" + UV.format("%.0f") + " AQ" + aqi.format("%.0f");
-                              } else {
-                                fieldText = temp.format("%.1f") + " UV" + UV.format("%.0f") + " AQ" + aqi.format("%.0f");
-                              }
+                              fieldText = temp.format("%.1f") + " UV" + UV.format("%.0f");
                             } else {
-                              if (aqi != null) {
-                                fieldText = temp.format("%.1f") + " AQ" + aqi.format("%.0f");
-                              } else {
-                                fieldText = temp.format("%.1f");
-                              }
+                              fieldText = temp.format("%.1f");
                             }
                             
                         }
@@ -982,6 +976,26 @@ class ClimateEyeView extends Ui.WatchFace {
                     break;
                 }
                 //unitText = tempUnit == 0 ? "kph" : "mph";
+                break;
+            case 16: // AQI
+                //System.println("aqi: " + aqi);
+                var aqi = App.getApp().getProperty("aqi");
+                if ((aqi != null)) {
+                    //System.println("."+temp+".");
+                    aqi = aqi.toFloat();
+                }
+                fieldText = null == aqi ? "-" : aqi.format("%.0f");
+                unitText = "AQI";
+                break;
+            case 16: // Allegens - still to do.
+                //System.println("aqi: " + aqi);
+                var allergy = App.getApp().getProperty("aqi");
+                if ((allergy != null)) {
+                    //System.println("."+temp+".");
+                    allergy = allergy.toFloat();
+                }
+                fieldText = null == allergy ? "-" : allergy.format("%.0f");
+                unitText = "Alrgy";
                 break;
         }
         dc.setColor(fieldForegroundColor, fieldBackgroundColor);
@@ -1498,7 +1512,8 @@ class ClimateEyeView extends Ui.WatchFace {
 
        if (isUnitText){
 //             return lcdFontDataFields ? digitalUpright16 : robotoCondensed7;
-             return robotoCondensed7;
+             //return robotoCondensed7;
+             return roboto16;
        }
 //       return lcdFontDataFields ? digitalUpright24 : roboto20;
        return roboto20;

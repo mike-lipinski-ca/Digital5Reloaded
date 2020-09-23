@@ -5,6 +5,7 @@ using Toybox.System;
 using Toybox.Time;
 using Toybox.Time.Gregorian;
 
+(:background)
 class ClimateEyeApp extends App.AppBase {
     hidden var view;
     hidden var sunRiseSet;

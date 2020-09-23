@@ -180,6 +180,8 @@
     
     <string id="DarkSkyApiKey">DarkSky API Key (obsolète)</string>
 	<string id="OpenWeatherApiKey">OpenWeather API Key</string>    
+	<string id="OpenUVApiKey">OpenUV API Key</string>    
+	<string id="WorldAirQualityApiToken">World AQI Token</string>
     <string id="TempUnit">Unité de température</string>
 	<string id="Celsius">Celsius</string>
 	<string id="Fahrenheit">Fahrenheit</string>
@@ -187,4 +189,8 @@
 	<string id="AltUnit">Unité de hauteur</string>
 	<string id="Meter">Mètres</string>
 	<string id="Feet">Pédestre</string>
+	<string id="Wind">Wind</string>
+	<string id="Gust">Gust</string>
+	<string id="AQI">AQI</string>
+	<string id="Allergens">Allergens</string>
 </strings>
