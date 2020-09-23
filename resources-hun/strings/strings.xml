@@ -188,4 +188,8 @@
 	<string id="AltUnit">Magasság-egység</string>
 	<string id="Meter">Méter</string>
 	<string id="Feet">Láb</string>
+	<string id="Wind">Wind</string>
+	<string id="Gust">Gust</string>
+	<string id="AQI">AQI</string>
+	<string id="Allergens">Allergens</string>
 </strings>

@@ -217,6 +217,8 @@
     		<listEntry value="12">@Strings.DeltaSteps</listEntry>
     		<listEntry value="13">@Strings.Weather</listEntry>
     		<listEntry value="14">@Strings.DeltaActiveKcalGoal</listEntry>
+    		<listEntry value="16">@Strings.AQI</listEntry>
+    		<listEntry value="17">@Strings.Allergens</listEntry>
     	</settingConfig>
     </setting>
     
@@ -237,6 +239,8 @@
     		<listEntry value="12">@Strings.DeltaSteps</listEntry>
     		<listEntry value="13">@Strings.Weather</listEntry>
     		<listEntry value="14">@Strings.DeltaActiveKcalGoal</listEntry>
+    		<listEntry value="16">@Strings.AQI</listEntry>
+    		<listEntry value="17">@Strings.Allergens</listEntry>
     	</settingConfig>
     </setting>
     
@@ -250,6 +254,8 @@
     		<listEntry value="8">@Strings.ActiveTimeWeek</listEntry>
     		<listEntry value="9">@Strings.Floors</listEntry>
     		<listEntry value="14">@Strings.DeltaActiveKcalGoal</listEntry>
+    		<listEntry value="16">@Strings.AQI</listEntry>
+    		<listEntry value="17">@Strings.Allergens</listEntry>
     	</settingConfig>
     </setting>
     
@@ -263,6 +269,8 @@
     		<listEntry value="8">@Strings.ActiveTimeWeek</listEntry>
     		<listEntry value="9">@Strings.Floors</listEntry>
     		<listEntry value="14">@Strings.DeltaActiveKcalGoal</listEntry>
+    		<listEntry value="16">@Strings.AQI</listEntry>
+    		<listEntry value="17">@Strings.Allergens</listEntry>
     	</settingConfig>
     </setting>
     

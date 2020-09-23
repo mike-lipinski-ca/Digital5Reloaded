@@ -188,4 +188,8 @@
 	<string id="AltUnit">Unidad de altura</string>
 	<string id="Meter">Metros</string>
 	<string id="Feet">Zócalo</string>
+	<string id="Wind">Wind</string>
+	<string id="Gust">Gust</string>
+	<string id="AQI">AQI</string>
+	<string id="Allergens">Allergens</string>
 </strings>
