@@ -42,15 +42,15 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
                 var clockTime = System.getClockTime();
                 // ok, gonna hardcode this in right now, but should probably do something better later.
                 // doing this to get around the limit of 50 calls per day for UV
-                //if (clockTime.hour > UVStartHH and clockTime.hour < UVEndHH) {
-                //  System.println("UV Request");
-                //  //makeOpenWeatherUVRequest(lat, lng, apiKey);
-                //  makeOpenUVRequest(lat, lng, uvApiKey);
-                //} else {
+                if (clockTime.hour > UVStartHH and clockTime.hour < UVEndHH) {
+                  System.println("UV Request");
+                  //makeOpenWeatherUVRequest(lat, lng, apiKey);
+                  makeOpenUVRequest(lat, lng, uvApiKey);
+                } else {
                   System.println("aqi Request");
                   makeWorldAirQualityRequest(lat, lng, aqiApiKey);
                   //makeOpenWeatherRequest(lat, lng, apiKey);
-                //}
+                }
             } else {
                 makeDarkSkyRequest(lat, lng, apiKey);
             }
