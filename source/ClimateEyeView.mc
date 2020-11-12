@@ -63,7 +63,6 @@ class ClimateEyeView extends Ui.WatchFace {
     var sunriseText        = "--:--";
     var sunsetText         = "--:--";
     var currentWeather;
-    var digitalUpright72, digitalUpright26, digitalUpright24, digitalUpright20, digitalUpright16;
     var robotoCondensed72, robotoCondensed24, roboto26, robotoCondensed7, robotoCondensed20, roboto20, roboto16;
     var weatherIconsFontDay, weatherIconsFontNight;
     var burnedIcon, burnedIconWhite, stepsIcon, stepsIconWhite;
@@ -109,11 +108,6 @@ class ClimateEyeView extends Ui.WatchFace {
     }
 
     function onLayout(dc) {
-        digitalUpright72 = Ui.loadResource(Rez.Fonts.digitalUpright72);
-        digitalUpright26 = Ui.loadResource(Rez.Fonts.digitalUpright26);
-        digitalUpright24 = Ui.loadResource(Rez.Fonts.digitalUpright24);
-        digitalUpright20 = Ui.loadResource(Rez.Fonts.digitalUpright20);
-        digitalUpright16 = Ui.loadResource(Rez.Fonts.digitalUpright16);
         robotoCondensed72 = Ui.loadResource(Rez.Fonts.robotoCondensed72);
         roboto26 = Ui.loadResource(Rez.Fonts.roboto26);
         roboto20 = Ui.loadResource(Rez.Fonts.roboto20);
@@ -254,16 +248,9 @@ class ClimateEyeView extends Ui.WatchFace {
             minuteColor = upperForegroundColor;
         }
 
-		if (lcdFont) {
-			timeFont = digitalUpright72 ;
-			dateTimeFont = digitalUpright26;
-			amPmFont = digitalUpright20;
-		}
-		else {
-			timeFont = robotoCondensed72 ;
-			dateTimeFont = roboto26;
-			amPmFont = robotoCondensed24;
-		}
+        timeFont = robotoCondensed72 ;
+        dateTimeFont = roboto26;
+        amPmFont = robotoCondensed24;
 		
 
         // Mifflin-St.Jeor Formula (1990)
@@ -354,7 +341,7 @@ class ClimateEyeView extends Ui.WatchFace {
             batteryIconOffsetX = 7;
             // Charge Text
             dc.setColor(upperForegroundColor, upperBackgroundColor);
-            dc.drawText(centerX, 1, digitalUpright20, charge.toNumber(), Gfx.TEXT_JUSTIFY_CENTER);
+            dc.drawText(centerX, 1, robotoCondensed20, charge.toNumber(), Gfx.TEXT_JUSTIFY_CENTER);
 
             // Percentage Sign
             dc.drawLine(centerX + 20 - batteryIconOffsetX, 16, centerX + 28 - batteryIconOffsetX, 6);
@@ -585,8 +572,8 @@ class ClimateEyeView extends Ui.WatchFace {
             calcSunriseSunset();
             drawArrow(dc, .4 * centerX, sunRiseY, 0);
             drawArrow(dc, 1.5 * centerX, sunRiseY, 1);
-            dc.drawText(.4 * centerX + 15, sunRiseY - 5, lcdFont ? digitalUpright16 : robotoCondensed20, sunriseText, Gfx.TEXT_JUSTIFY_LEFT);
-            dc.drawText(1.5 * centerX - 5, sunRiseY - 5, lcdFont ? digitalUpright16 : robotoCondensed20, sunsetText, Gfx.TEXT_JUSTIFY_RIGHT);
+            dc.drawText(.4 * centerX + 15, sunRiseY - 5, robotoCondensed20, sunriseText, Gfx.TEXT_JUSTIFY_LEFT);
+            dc.drawText(1.5 * centerX - 5, sunRiseY - 5, robotoCondensed20, sunsetText, Gfx.TEXT_JUSTIFY_RIGHT);
         }
 
 
@@ -1519,16 +1506,12 @@ class ClimateEyeView extends Ui.WatchFace {
     
     function GetFieldFont(fieldNumber, isUnitText) {
        if (fieldNumber == BOTTOM_FIELD) {
-//             return lcdFontDataFields ? digitalUpright20 : robotoCondensed24;
              return robotoCondensed24;
        }
 
        if (isUnitText){
-//             return lcdFontDataFields ? digitalUpright16 : robotoCondensed7;
-             //return robotoCondensed7;
              return roboto16;
        }
-//       return lcdFontDataFields ? digitalUpright24 : roboto20;
        return roboto20;
     }
     
