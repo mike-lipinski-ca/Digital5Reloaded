@@ -940,11 +940,19 @@ class ClimateEyeView extends Ui.WatchFace {
                     var tempgust;
                    if (currentWeather) {
                         var wind = App.getApp().getProperty("wind");
+                        if ((wind != null)) {
+                            //System.println("."+temp+".");
+                            wind = wind.toFloat();
+                        }                        
                         var gust = App.getApp().getProperty("gust");
+                        if ((gust != null)) {
+                            //System.println("."+temp+".");
+                            gust = gust.toFloat();
+                        }                        
                         var direction = App.getApp().getProperty("direction");
                         //System.println("direction " + direction);
                        if (!(wind instanceof Toybox.Lang.Float)) {
-                            fieldText = "--no dta --";
+                            fieldText = "--   --";
                             unitText = "";
                             break;
                         } else {

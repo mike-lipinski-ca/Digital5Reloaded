@@ -80,9 +80,7 @@
 
     <property id="OpenUVApiKey" type="string">4faec78c46a3f9361e2c48c844794b18</property>
 
-    <property id="WorldAirQualityApiTokenOld" type="string">aefdc18698f605c69b6d9599bf82c343fe3da8f4</property>
-
-    <property id="WorldAirQualityApiToken" type="string">ff3d6e2408984f21894d915da69f0c98</property>
+    <property id="IQAirApiToken" type="string">4ca28bd2-fd69-41dc-be8a-87617b1d95d2</property>
 
     <property id="TempUnit" type="number">0</property>
 
