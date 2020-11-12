@@ -358,10 +358,6 @@
     		<settingConfig type="boolean" />
     </setting>
     
-    <setting propertyKey="@Properties.DarkSkyApiKey" title="@Strings.DarkSkyApiKey">
-    		<settingConfig type="alphanumeric" maxLength="32"/>
-    </setting>
-
     <setting propertyKey="@Properties.OpenWeatherApiKey" title="@Strings.OpenWeatherApiKey">
     		<settingConfig type="alphanumeric" maxLength="32"/>
     </setting>
@@ -370,7 +366,7 @@
     		<settingConfig type="alphanumeric" maxLength="40"/>
     </setting>
     
-    <setting propertyKey="@Properties.WorldAirQualityApiToken" title="@Strings.WorldAirQualityApiToken">
+    <setting propertyKey="@Properties.IQAirApiToken" title="@Strings.IQAirApiToken">
     		<settingConfig type="alphanumeric" maxLength="32"/>
     </setting>
     
