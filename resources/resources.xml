@@ -20,5 +20,9 @@
         <font id="robotoCondensed7" antialias="true" filename="fonts/RobotoCondensed_7.fnt" filter="CFbcfikmtNWSEs"/>
         <font id="roboto20" antialias="true" filename="fonts/Roboto20Full.fnt" filter="abcdefghijklmnopqrstuvwxyzABDCDEFGHIJKLMNOPQRSTUVWYZ0123456789:.- /"/>
         <font id="roboto16" antialias="true" filename="fonts/Roboto16full.fnt" filter="abcdefghijklmnopqrstuvwxyzABDCDEFGHIJKLMNOPQRSTUVWYZ0123456789:.- /"/>
+        <!-- Font size chosen such that height of sunshine icon is 24px -->
+        <!-- .fnt file modified such that day icons start from "A", night icons start from "a", "broken clouds" ("I") is shared -->
+        <font id="WeatherIconsFontDay" filename="fonts/weather-icons-24.fnt" antialias="true" filter="ABCDEFGHIabcdefgh"/>
+        <font id="WeatherIconsFontNight" filename="fonts/weather-icons-24.fnt" antialias="true" filter="abcdefghI"/>
     </fonts>
 </resources>

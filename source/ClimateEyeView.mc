@@ -65,6 +65,7 @@ class ClimateEyeView extends Ui.WatchFace {
     var currentWeather;
     var digitalUpright72, digitalUpright26, digitalUpright24, digitalUpright20, digitalUpright16;
     var robotoCondensed72, robotoCondensed24, roboto26, robotoCondensed7, robotoCondensed20, roboto20, roboto16;
+    var weatherIconsFontDay, weatherIconsFontNight;
     var burnedIcon, burnedIconWhite, stepsIcon, stepsIconWhite;
     var alarmIcon, alarmIconWhite;
     var width, height;
@@ -120,6 +121,8 @@ class ClimateEyeView extends Ui.WatchFace {
         robotoCondensed24 = Ui.loadResource(Rez.Fonts.robotoCondensed24);
         robotoCondensed7 = Ui.loadResource(Rez.Fonts.robotoCondensed7);
         robotoCondensed20 = Ui.loadResource(Rez.Fonts.robotoCondensed20);
+        weatherIconsFontDay = Ui.loadResource(Rez.Fonts.WeatherIconsFontDay);
+        weatherIconsFontNight = Ui.loadResource(Rez.Fonts.WeatherIconsFontNight);
         burnedIcon = Ui.loadResource(Rez.Drawables.burned);
         burnedIconWhite = Ui.loadResource(Rez.Drawables.burnedWhite);
         stepsIcon = Ui.loadResource(Rez.Drawables.steps);
@@ -922,14 +925,16 @@ class ClimateEyeView extends Ui.WatchFace {
                             fieldText = minTemp.format("%.0f") + "/" + maxTemp.format("%.0f");
                         }
                     }
-                    drawWeatherSymbol(field, icon, dc, xyPositions);
+                    //drawWeatherSymbol(field, icon, dc, xyPositions);
+                    dc.setColor(fieldForegroundColor, fieldBackgroundColor);
+                    dc.drawText(xyPositions[0]+3, xyPositions[1]-7, weatherIconsFontDay, icon, Gfx.TEXT_JUSTIFY_CENTER);
                 } 
                 else {
                     fieldText = "KEY";
                     unitText = "";
                     break;
                 }
-                unitText = tempUnit == 0 ? "C" : "F";
+                //unitText = tempUnit == 0 ? "C" : "F";
                 break;
             case 15: // wind
                 if (apiKey.length() > 0) {

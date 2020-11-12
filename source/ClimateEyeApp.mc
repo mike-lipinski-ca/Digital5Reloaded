@@ -129,30 +129,88 @@ class ClimateEyeApp extends App.AppBase {
 
             var icon = data.get("icon");
             if (openWeather){
-              if (icon == null) {
-                  App.getApp().setProperty("icon", 7);
-              } else if (icon.equals("01d") || icon.equals("01n")) {
+              if (icon.equals("01d")) {
                   // clear
-                  App.getApp().setProperty("icon", 0);
-              } else if (icon.equals("09d") || icon.equals("09n") || icon.equals("10d") || icon.equals("10n")) {
-                // rain
-                  App.getApp().setProperty("icon", 1);
-              } else if (icon.equals("03d") || icon.equals("03n") || icon.equals("04d") || icon.equals("04n")) {
-                  // partly cloudy
-                  App.getApp().setProperty("icon", 2);
-              } else if (icon.equals("02d") || icon.equals("02n")) {
+                  App.getApp().setProperty("icon", "H");
+              } else if (icon.equals("02d")) {
                   // cloudy
-                  App.getApp().setProperty("icon", 3);
-              } else if (icon.equals("11d") || icon.equals("11n")) {
+                  App.getApp().setProperty("icon", "G");
+              } else if (icon.equals("03d")) {
+                  // partly cloudy
+                  App.getApp().setProperty("icon","B");
+              } else if (icon.equals("04d")) {
+                  // broken clouds
+                  App.getApp().setProperty("icon", "I");
+              } else if (icon.equals("09d")) {
+                // shower rain
+                  App.getApp().setProperty("icon", "E");
+              } else if (icon.equals("10d")) {
+                  // rain
+                  App.getApp().setProperty("icon", "D");
+              } else if (icon.equals("11d")) {
                   // thunderstorm
-                  App.getApp().setProperty("icon", 4);
-              } else if (icon.equals("13d") || icon.equals("13n")) {
+                  App.getApp().setProperty("icon", "C");
+              } else if (icon.equals("13d")) {
                   // snow
-                  App.getApp().setProperty("icon", 6);
+                  App.getApp().setProperty("icon", "F");
+              } else if (icon.equals("50d")) {
+                  // mist
+                  App.getApp().setProperty("icon", "A");
+              } else if (icon.equals("01n")) {
+                  // clear
+                  App.getApp().setProperty("icon", "f");
+              } else if (icon.equals("02n")) {
+                  // cloudy
+                  App.getApp().setProperty("icon", "g");
+              } else if (icon.equals("03n")) {
+                  // partly cloudy
+                  App.getApp().setProperty("icon", "h");
+              } else if (icon.equals("04n")) {
+                  // broken clouds
+                  App.getApp().setProperty("icon", "i");
+              } else if (icon.equals("09n")) {
+                // shower rain
+                  App.getApp().setProperty("icon", "d");
+              } else if (icon.equals("10n")) {
+                  // rain
+                  App.getApp().setProperty("icon", "c");
+              } else if (icon.equals("11n")) {
+                  // thunderstorm
+                  App.getApp().setProperty("icon", "b");
+              } else if (icon.equals("13n")) {
+                  // snow
+                  App.getApp().setProperty("icon", "e");
+              } else if (icon.equals("50n")) {
+                  // mist
+                  App.getApp().setProperty("icon", "a");
               } else {  
                   // not set
-                  App.getApp().setProperty("icon", 7);
+                  App.getApp().setProperty("icon", "");
               }
+//              if (icon == null) {
+//                  App.getApp().setProperty("icon", 7);
+//              } else if (icon.equals("01d") || icon.equals("01n")) {
+//                  // clear
+//                  App.getApp().setProperty("icon", 0);
+//             } else if (icon.equals("09d") || icon.equals("09n") || icon.equals("10d") || icon.equals("10n")) {
+//                // rain
+//                  App.getApp().setProperty("icon", 1);
+//              } else if (icon.equals("03d") || icon.equals("03n") || icon.equals("04d") || icon.equals("04n")) {
+//                  // partly cloudy
+//                  App.getApp().setProperty("icon", 2);
+//              } else if (icon.equals("02d") || icon.equals("02n")) {
+//                  // cloudy
+//                  App.getApp().setProperty("icon", 3);
+//             } else if (icon.equals("11d") || icon.equals("11n")) {
+//                  // thunderstorm
+//                  App.getApp().setProperty("icon", 4);
+//              } else if (icon.equals("13d") || icon.equals("13n")) {
+//                  // snow
+//                  App.getApp().setProperty("icon", 6);
+//              } else {  
+//                  // not set
+//                  App.getApp().setProperty("icon", 7);
+//              }
             } else {
               if (icon == null) {
                   App.getApp().setProperty("icon", 7);
