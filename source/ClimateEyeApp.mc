@@ -167,7 +167,7 @@ class ClimateEyeApp extends App.AppBase {
                   App.getApp().setProperty("icon", "h");
               } else if (icon.equals("04n")) {
                   // broken clouds
-                  App.getApp().setProperty("icon", "i");
+                  App.getApp().setProperty("icon", "I");
               } else if (icon.equals("09n")) {
                 // shower rain
                   App.getApp().setProperty("icon", "d");
