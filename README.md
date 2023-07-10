@@ -1,5 +1,18 @@
 # Garmin Connect IQ fenix 5 watch face: Digital 5 Reloaded
 
+# stack requirements
+VIsual Studio 2022 Tools
+Java JDK SE 8
+
+# To Compile:
+# run the vsdev.cmd first to set up the environment. You can do this in powershell or windows command line
+./vsdev.cmd
+
+# make the file
+nmake run
+
+# copy the climateeye.prg from ./bin to the garmin fenix watch in Garmin\apps .  If you need to change a setting (ex. an api key), delete the garmin\apps\settings\climeye.set first.   It will recreate from the default properties.xml.
+
 **History**
 
 Digital5 was a Garmin Connect IQ watch face, created for the fenix 5 range. Its developer, [Gerrit Grunwald](https://twitter.com/hansolo_), discontinued working on this watch face earlier this year. I still think it was one of the better faces, striking a balance between number of "data" fields, and readability.

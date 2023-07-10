@@ -553,8 +553,9 @@ class ClimateEyeView extends Ui.WatchFace {
 
         //draw city
         var city = App.getApp().getProperty("City");
+        var callDate = App.getApp().getProperty("callDate");
         if (city != null) {
-            dc.drawText(dateXPosition, dateYPosition + 20, roboto16, city, Gfx.TEXT_JUSTIFY_LEFT);
+            dc.drawText(dateXPosition, dateYPosition + 20, roboto16, callDate + " " + city, Gfx.TEXT_JUSTIFY_LEFT);
         }
 
 
