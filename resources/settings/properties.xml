@@ -54,7 +54,7 @@
     
     <property id="UpperLeftField" type="number">13</property>
     <property id="UpperRightField" type="number">0</property>
-    <property id="LowerLeftField" type="number">3</property>
+    <property id="LowerLeftField" type="number">2</property>
     <property id="LowerRightField" type="number">16</property>
     <property id="BottomField" type="number">15</property>
     

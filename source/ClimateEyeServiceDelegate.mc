@@ -79,6 +79,18 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
                 System.println("direction: " + data["wind"]["deg"]);
                 System.println("uv: " + uv);
                 System.println("aqi: " + aqi);
+                var today = Greg.info(Time.now(), Time.FORMAT_SHORT);
+                var dateString = Lang.format(
+                    "$3$-$4$-$5$ $1$:$2$",
+                    [
+                        today.hour,
+                        today.min,
+                        today.year,
+                        today.month,
+                        today.day
+                    ]
+                );
+                System.println("dateString: " + dateString); // e.g. "16:28:32 Wed 1 Mar 2017"
                 var callDate = "";     //calcHomeDateTime();
                 if (currentWeather) {
                     var dict = {
@@ -91,7 +103,7 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
                         "UV" => uv,
                         "aqi" => aqi,
                         "msg"  => "CURRENTLY",
-                        "callDate" => callDate
+                        "callDate" => dateString
                     };
                   Background.exit(dict);
 
@@ -107,7 +119,7 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
                         "UV" => uv,
                         "AQI" => aqi,
                         "msg"     => "DAILY",
-                        "callDate" => callDate
+                        "callDate" => dateString
                     };
                     Background.exit(dict);
                 }
@@ -178,80 +190,5 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
         makeOpenWeatherRequest(lat, lng, apiKey);
         //Background.exit(dict);
     }
-     /// <summary>
-    /// CLone of the calchomedatatime in order to see if I can harvest the current time that the last API call was done.  Not used currently as there are issues.
-    /// </summary>
-    /// <returns>array that contains Date and Time</returns>
-    function calcHomeDateTime(){
-        var dst  = App.getApp().getProperty("DST");
-        var clockTime = System.getClockTime();
-        var nowinfo = Greg.info(Time.now(), Time.FORMAT_SHORT);
-        var dayOfWeek = nowinfo.day_of_week;
-        var dayMonth = App.getApp().getProperty("DateFormat") == 0;
-        var dateFormat = dayMonth ? "$1$.$2$" : "$2$/$1$";
-        var monthAsText = App.getApp().getProperty("MonthAsText");
-        var timezoneOffset = clockTime.timeZoneOffset;
-        var showHomeTimezone = App.getApp().getProperty("ShowHomeTimezone");
-        var showHomeDate = App.getApp().getProperty("ShowHomeDate");
-        var homeTimezoneOffset = dst ? App.getApp().getProperty("HomeTimezoneOffset") + 3600 : App.getApp().getProperty("HomeTimezoneOffset");
-        var onTravel = timezoneOffset != homeTimezoneOffset;
-
-        var monthText = "";
-        var timeText = "";
-        var currentWeekdayText    = weekdays[dayOfWeek - 1];
-        var currentDateText       = dayMonth ?  nowinfo.day.format(showLeadingZero ? "%02d" : "%01d") + " " + months[nowinfo.month - 1] : months[nowinfo.month - 1] + " " + nowinfo.day.format(showLeadingZero ? "%02d" : "%01d");
-        var currentDateNumberText = Lang.format(dateFormat, [nowinfo.day.format(showLeadingZero ? "%02d" : "%01d"), nowinfo.month.format(showLeadingZero ? "%02d" : "%01d")]);
-        monthText = currentWeekdayText + (monthAsText ? currentDateText : currentDateNumberText);
-        
-        if (!onTravel) {
-            // if we are not traveling, just show the current date, time will be empty
-            return [monthText, timeText];
-        }
-
-        if (showHomeTimezone || showHomeDate){
-            // we are traveling. If we are showing either home Time or home Date, we need to calculate this
-            var currentSeconds = clockTime.hour * 3600 + clockTime.min * 60 + clockTime.sec;
-            var utcSeconds     = currentSeconds - clockTime.timeZoneOffset;
-            var homeDayOfWeek  = dayOfWeek - 1;
-            var homeDay        = nowinfo.day;
-            var homeMonth      = nowinfo.month;
-            var homeSeconds    = utcSeconds + homeTimezoneOffset;
-            if (dst) { 
-                homeSeconds = homeTimezoneOffset > 0 ? homeSeconds : homeSeconds - 3600; 
-            }
-            var homeHour       = ((homeSeconds / 3600)).toNumber() % 24l;
-            var homeMinute     = ((homeSeconds - (homeHour.abs() * 3600)) / 60) % 60;
-        
-            if (homeHour < 0) {
-                homeHour += 24;
-                homeDay--;
-                if (homeDay == 0) {
-                    homeMonth--;
-                    if (homeMonth == 0) { homeMonth = 12; }
-                    homeDay = daysOfMonth(homeMonth);
-                }
-                homeDayOfWeek--;
-                if (homeDayOfWeek < 0) { homeDayOfWeek = 6; }
-            }
-            if (homeMinute < 0) { homeMinute += 60; }
-
-            var ampm = is24Hour ? "" : homeHour < 12 ? "A" : "P";
-            homeHour = is24Hour ? homeHour : (homeHour == 12) ? homeHour : (homeHour % 12);
-            
-            if (showHomeDate) {
-                // if we want to show the home date, we need to calculate it
-                var homeWeekdayText    = weekdays[homeDayOfWeek];
-                var homeDateText       = dayMonth ?  
-                    homeDay.format(showLeadingZero ? "%02d" : "%01d") + " " + months[homeMonth - 1] : 
-                      months[homeMonth - 1] + " " + homeDay.format(showLeadingZero ? "%02d" : "%01d");
-                var homeDateNumberText = Lang.format(dateFormat, [homeDay.format(showLeadingZero ? "%02d" : "%01d"), homeMonth.format(showLeadingZero ? "%02d" : "%01d")]);
-                monthText =  homeWeekdayText + (monthAsText ? homeDateText : homeDateNumberText);
-            }
-
-            timeText = Lang.format("$1$:$2$", [homeHour.format(showLeadingZero ? "%02d" : "%01d"), homeMinute.format("%02d")]) + ampm;
-        }
-
-        return [monthText, timeText];
-    }
-   
+  
 }
