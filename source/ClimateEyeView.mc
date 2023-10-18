@@ -554,8 +554,38 @@ class ClimateEyeView extends Ui.WatchFace {
         //draw city
         var city = App.getApp().getProperty("City");
         var callDate = App.getApp().getProperty("callDate");
+        var callDateRawyear = App.getApp().getProperty("callDateRawyear");
+        var callDiff = 0;
+        var nowMoment = Greg.moment({
+            :year => nowinfo.year, 
+            :month => nowinfo.month, 
+            :day => nowinfo.day, 
+            :hour => clockTime.hour, 
+            :minute => clockTime.min, 
+            :second => clockTime.sec
+            });
+
+
+        if (callDateRawyear != null) {
+
+            var callMoment = Greg.moment({
+                :year => App.getApp().getProperty("callDateRawyear"), 
+                :month => App.getApp().getProperty("callDateRawmonth"), 
+                :day => App.getApp().getProperty("callDateRawday"), 
+                :hour => App.getApp().getProperty("callDateRawhour"), 
+                :minute => App.getApp().getProperty("callDateRawminute"), 
+                :second => App.getApp().getProperty("callDateRawsecond")
+                });
+            callDiff = nowMoment.subtract(callMoment).value() / 60;
+        } else {
+            var callMoment = nowMoment;
+        }
+        
+        System.println("Diff: " + callDiff); // e.g. "16:28:32 Wed 1 Mar 2017"
+
+
         if (city != null) {
-            dc.drawText(dateXPosition, dateYPosition + 20, roboto16, callDate + " " + city, Gfx.TEXT_JUSTIFY_LEFT);
+            dc.drawText(dateXPosition, dateYPosition + 20, roboto16, callDiff + " " + city, Gfx.TEXT_JUSTIFY_LEFT);
         }
 
 

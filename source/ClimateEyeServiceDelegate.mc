@@ -90,7 +90,16 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
                         today.day
                     ]
                 );
+                var callDateRaw = Greg.moment({
+                    :year => today.year, 
+                    :month => today.month, 
+                    :day => today.day, 
+                    :hour => today.hour, 
+                    :minute => today.min, 
+                    :second => today.sec
+                });
                 System.println("dateString: " + dateString); // e.g. "16:28:32 Wed 1 Mar 2017"
+                System.println("today: " + callDateRaw); // e.g. "16:28:32 Wed 1 Mar 2017"
                 var callDate = "";     //calcHomeDateTime();
                 if (currentWeather) {
                     var dict = {
@@ -103,7 +112,13 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
                         "UV" => uv,
                         "aqi" => aqi,
                         "msg"  => "CURRENTLY",
-                        "callDate" => dateString
+                        "callDate" => dateString,
+                        "callDateRawyear" => today.year, 
+                        "callDateRawmonth" => today.month, 
+                        "callDateRawday" => today.day, 
+                        "callDateRawhour" => today.hour, 
+                        "callDateRawminute" => today.min, 
+                        "callDateRawsecond" => today.sec
                     };
                   Background.exit(dict);
 
@@ -119,7 +134,13 @@ class ClimateEyeServiceDelegate extends System.ServiceDelegate {
                         "UV" => uv,
                         "AQI" => aqi,
                         "msg"     => "DAILY",
-                        "callDate" => dateString
+                        "callDate" => dateString,
+                        "callDateRawyear" => today.year, 
+                        "callDateRawmonth" => today.month, 
+                        "callDateRawday" => today.day, 
+                        "callDateRawhour" => today.hour, 
+                        "callDateRawminute" => today.min, 
+                        "callDateRawsecond" => today.sec
                     };
                     Background.exit(dict);
                 }

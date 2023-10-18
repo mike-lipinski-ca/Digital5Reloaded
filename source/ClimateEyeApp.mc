@@ -70,6 +70,13 @@ class ClimateEyeApp extends App.AppBase {
           if (msg.equals("CURRENTLY") or msg.equals("DAILY")) {
 
             App.getApp().setProperty("callDate", data.get("callDate"));
+
+            App.getApp().setProperty("callDateRawyear", data.get("callDateRawyear"));
+            App.getApp().setProperty("callDateRawmonth", data.get("callDateRawmonth"));
+            App.getApp().setProperty("callDateRawday", data.get("callDateRawday" ));
+            App.getApp().setProperty("callDateRawhour", data.get("callDateRawhour"));
+            App.getApp().setProperty("callDateRawminute", data.get("callDateRawminute"));
+            App.getApp().setProperty("callDateRawsecond", data.get("callDateRawsecond"));
             App.getApp().setProperty("wind", data.get("wind"));
             var gust = data.get("gust");
             if (gust == null) {
