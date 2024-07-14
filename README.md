@@ -13,6 +13,22 @@ nmake run
 
 # copy the climateeye.prg from ./bin to the garmin fenix watch in Garmin\apps .  If you need to change a setting (ex. an api key), delete the garmin\apps\settings\climeye.set first.   It will recreate from the default properties.xml.
 
+# IQAir 
+#    Log in as mlipinsk gmail at https://dashboard.iqair.com/personal/api-keys
+#    renew api key
+#    put new API key in the properties.xml under the IQAirApiToken
+#  recompile
+#     nmake run
+#  do a "Reset all App Data" in the simulator under the file menu
+#  do a background event - temporal
+
+# connect watch to sideload app
+#  go to garmin/apps
+#  delete climeye.prg
+#  copy new climeye.prg from local bin folder
+#  delete climeye in the setting folder.  It gets created automatically.
+
+
 **History**
 
 Digital5 was a Garmin Connect IQ watch face, created for the fenix 5 range. Its developer, [Gerrit Grunwald](https://twitter.com/hansolo_), discontinued working on this watch face earlier this year. I still think it was one of the better faces, striking a balance between number of "data" fields, and readability.

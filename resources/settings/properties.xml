@@ -78,7 +78,7 @@
 
     <property id="OpenUVApiKey" type="string">4faec78c46a3f9361e2c48c844794b18</property>
 
-    <property id="IQAirApiToken" type="string">7577b743-7efc-49c0-b2a9-128e89a08cc8</property>
+    <property id="IQAirApiToken" type="string">f0e7b263-5c9e-4ea1-b1d3-fb9d338a9130</property>
 
     <property id="TempUnit" type="number">0</property>
 
